@@ -1,0 +1,26 @@
+{
+  "name": "erudit-backend",
+  "version": "0.0.1",
+  "description": "backend server for erudit game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "nodemon": "^2.0.22",
+    "pg": "^8.11.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.31.1",
+    "socket.io": "^4.6.1",
+    "ws": "^8.11.0"
+  }
+}
