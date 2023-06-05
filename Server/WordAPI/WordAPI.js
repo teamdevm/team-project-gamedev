@@ -4,8 +4,6 @@ class WordAPI {
   fetchData(word) {
     return new Promise(async (resolve, reject) => {
       try {
-        word = word.toLowerCase();
-
         const url = `http://paraphraser.ru/api?token=d6a965641880dd890cf5d9d1b821b96594dd0e1d&c=vector&query=${word}&top=1&lang=ru&format=json&forms=1&scores=0`;
 
         const data = await new Promise((resolve, reject) => {
@@ -41,20 +39,4 @@ class WordAPI {
   }
 }
 
-const myObject = new WordAPI();
-
-const readline = require('readline');
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-rl.question('Введите слово: ', async (word) => {
-  try {
-    const result = await myObject.fetchData(word);
-    console.log(result);
-  } catch (error) {
-    console.error(error);
-  }
-  rl.close();
-});
+module.exports = WordAPI;
