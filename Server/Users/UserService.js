@@ -1,3 +1,5 @@
+const User = require('./UserModel');
+
 class UserService {
     /**
      * @type {Object.<string, User>}
@@ -15,7 +17,13 @@ class UserService {
         }
     }
 
+    UnregisterFromSystem(uuid){
+        delete this.users[uuid];
+    }
+
     FindUser(uuid){
         return users[uuid];
     }
 }
+
+module.exports = new UserService();
