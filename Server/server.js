@@ -15,9 +15,12 @@ class Server {
     lobbies;
 
     constructor(port){
+        this.lobbies = {};        
         this.srv = new ws.Server({ port: port });
 
         this.srv.on('connection', socket => {
+            console.log("New connection established");
+
             socket.on('message', (data, isBinary) => {
                 const jsonStr = String.fromCharCode(...data);
                 const dataObj = JSON.parse(jsonStr);
@@ -30,78 +33,79 @@ class Server {
     }
 
     HandleMessage(msg){
+        let respObj = {
+            command: msg.command,
+            code: 0,
+            data: {}
+        };
+
         switch(msg.command){
             case "user-registration": {
+                console.log("user-registration fired");
+
                 UserService.RegistryInSystem(msg.data, msg.socket);
 
-                socket.on("error", (error) => {
+                msg.socket.on("error", (error) => {
                     UserService.UnregisterFromSystem(msg.data.uuid);
                 });
 
-                socket.on("close", (code, reason) => {
+                msg.socket.on("close", (code, reason) => {
                     UserService.UnregisterFromSystem(msg.data.uuid);
                 });
-
-                return { code: 0 };
             }; break;
 
             case "create-lobby": {
+                console.log("create-lobby fired");
+
                 let lobby = new Lobby();
                 this.lobbies[lobby.uuid] = lobby;
 
                 let lobbyObject = this.ConnectUserToLobby(msg.data.uuid, lobby);
 
-                return { 
-                    code: 0,
-                    lobby: lobbyObject
-                };
+                respObj.data.lobby = lobbyObject;
             }; break;
 
             case "connect-to-lobby": {
+                console.log("connect-to-lobby fired");
+
                 let lobby = this.lobbies[msg.data.lobby_uuid];
 
                 if(!lobby){
-                    return {
-                        code: 1
-                    };
+                    respObj.code = 1;
+                    break;
                 }
 
                 let lobbyObject = this.ConnectUserToLobby(msg.data.user_uuid, lobby);
 
-                return { 
-                    code: 0,
-                    lobby: lobbyObject
-                };
+                respObj.data.lobby = lobbyObject;
             }; break;
 
             case "disconnect-from-lobby": {
+                console.log("disconnect-from-lobby fired");
+
                 let lobby = this.lobbies[msg.data.lobby_uuid];
 
                 if(!lobby){
-                    return {
-                        code: 1
-                    };
+                    respObj.code = 1;
+                    break;
                 }
 
                 let user = UserService.FindUser(msg.data.user_uuid)
 
                 lobby.DisconnectUser(user);
-
-                return {
-                    code: 0
-                }
             }; break;
 
             case "sync-lobby": {
+                console.log("sync-lobby fired");
+
                 let lobby = this.lobbies[msg.data.uuid];
                 let lobbyObject = lobby.CreateLobbyObject();
 
-                return {
-                    code: 0,
-                    lobby: lobbyObject
-                }
+                respObj.data.lobby = lobbyObject;
             }; break;
         }
+
+        return respObj;
     }
 
     ConnectUserToLobby(user_uuid, lobby){

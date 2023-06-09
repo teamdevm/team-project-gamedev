@@ -6,14 +6,16 @@ class UserService {
      */
     users;
 
-    constructor(){}
+    constructor(){
+        this.users = {};
+    }
 
     RegistryInSystem(userData, socket){
-        if(!FindUser){
-            this.users[uuid] = new User(userData.name, userData.uuid, socket);
+        if(!this.FindUser(userData.uuid)){
+            this.users[userData.uuid] = new User(userData.name, userData.uuid, socket);
         } else {
-            this.users[uuid].socket = socket;
-            this.users[uuid].name = userData.name;
+            this.users[userData.uuid].socket = socket;
+            this.users[userData.uuid].name = userData.name;
         }
     }
 
@@ -22,7 +24,7 @@ class UserService {
     }
 
     FindUser(uuid){
-        return users[uuid];
+        return this.users[uuid];
     }
 }
 

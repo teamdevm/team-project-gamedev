@@ -70,7 +70,7 @@ class Lobby {
         });
 
         this.users.splice(userIndex, 1);
-        currentPlayers--;
+        this.currentPlayers--;
 
         let msg = {
             command: "player-leave-lobby",
@@ -88,7 +88,7 @@ class Lobby {
         let usersList = [];
 
         for(let i = 0; i < this.users.length; i++){
-            usersList.push(users[i].CreateUserObject());
+            usersList.push(this.users[i].CreateUserObject());
         }
 
         return {

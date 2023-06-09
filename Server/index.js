@@ -8,7 +8,7 @@ const SocketServer = require('./server');
 const path = require('path');
 global.serverAppRoot = path.resolve(__dirname);
 
-let socketServer;
+var socketServer;
 
 let httpServer;
 let app = express();

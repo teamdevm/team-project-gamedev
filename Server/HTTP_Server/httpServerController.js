@@ -9,9 +9,7 @@ class HTTPController {
             res.cookie(
                 'uuid',
                 uuidv4(), {
-                    httpOnly: true,
-                    sameSite: 'None',
-                    secure: false
+                    sameSite: 'Strict'
                 }
             );            
         }
