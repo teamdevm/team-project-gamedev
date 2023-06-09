@@ -1,4 +1,4 @@
-extends Control
+class_name MainMenuScreen extends Control
 
 func _ready()->void:
 	SocketWork.connect('Command', _onCommand)
@@ -26,8 +26,9 @@ func JoinLobby() -> void:
 	})
 
 func OnLobbyCreated(data)->void:
-	var lobby_uuid = data['lobby']
-	var users = data['users']
+	var lobby = data['lobby']
+	var lobby_uuid = lobby['uuid']
+	var users = lobby['users']
 	OpenLobbyScreen(lobby_uuid, users)
 
 func OnLobbyJoined(data)->void:
@@ -37,7 +38,7 @@ func OnLobbyJoined(data)->void:
 
 
 func OpenLobbyScreen(lobby_uuid:String, users:Array)->void:
-	var lobbyScene = preload("res://screens/Lobby/lobby.tscn").instantiate()
+	var lobbyScene = LobbyScreen.new()
 	lobbyScene.UUID = lobby_uuid
 	lobbyScene.Users = users
 	get_tree().root.add_child(lobbyScene)
@@ -45,7 +46,7 @@ func OpenLobbyScreen(lobby_uuid:String, users:Array)->void:
 	queue_free()
 
 func GetUsername()->String:
-	return get_node("LineEdit").Text
+	return get_node("LineEdit").text
 
 func GetLobbyCode()->String:
-	return get_node("LineEdit2").Text
+	return get_node("LineEdit2").text

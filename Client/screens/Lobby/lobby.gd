@@ -1,13 +1,24 @@
-extends Control
+class_name LobbyScreen extends Control
 
 var UUID:String
 var Users:Array
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
+func _ready()->void:
+	SocketWork.connect('Command', _onCommand)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _onCommand(command:String, data)->void:
 	pass
+
+func ExitLobby()->void:
+	SocketWork.SendCommand('disconnect-from-lobby', {
+		'user_uuid':SocketWork.UUID,
+		'lobby_uuid':UUID
+	})
+	OpenMainMenu()
+
+func OpenMainMenu()->void:
+	var mainMenu = MainMenuScreen.new()
+	get_tree().root.add_child(mainMenu)
+	get_tree().current_scene = mainMenu
+	queue_free()

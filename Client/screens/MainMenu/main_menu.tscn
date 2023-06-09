@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://clpvycpjswguv"]
+[gd_scene load_steps=3 format=3 uid="uid://clpvycpjswguv"]
 
 [ext_resource type="Script" path="res://screens/MainMenu/main_menu.gd" id="1_qoj7x"]
+[ext_resource type="Script" path="res://screens/MainMenu/Button2.gd" id="2_6fx50"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -47,6 +48,7 @@ offset_right = 256.0
 offset_bottom = 507.0
 theme_override_font_sizes/font_size = 36
 text = "Create"
+script = ExtResource("2_6fx50")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
@@ -56,3 +58,5 @@ offset_right = 210.0
 offset_bottom = 405.0
 theme_override_font_sizes/font_size = 36
 text = "OR"
+
+[connection signal="pressed" from="Button2" to="Button2" method="_on_pressed"]

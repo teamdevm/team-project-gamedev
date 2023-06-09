@@ -2,12 +2,14 @@ extends Node
 
 var DEBUG:bool = OS.is_debug_build()
 
-var url:String = 'ws://example.com'
+var url:String = 'ws://26.120.131.9:3000'
 
 var socket := WebSocketPeer.new()
 
 var Opened:bool = false
+var Connecting:bool = false
 var Connected:bool = false
+var _defferedCommands:Array[String] = []
 
 var Username:String = ''
 var UUID:String = ''
@@ -16,7 +18,6 @@ signal Command(command:String, data)
 
 
 func OpenConnection(username:String)->void:
-	Opened = true
 	Username = username
 	_ConnectSocket()
 
@@ -25,21 +26,30 @@ func CloseConnection()->void:
 	socket.close()
 
 func SendCommand(command:String, data) -> void:
-	var sendingObject = JSON.stringify({
+	var jsonCommand = JSON.stringify({
 		'command': command,
 		'data': data
 	})
-	socket.send_text(sendingObject)
+	if not _ConnectionIsOpened():
+		_defferedCommands.append(jsonCommand)
+		return
+	socket.send_text(jsonCommand)
 
+func ReleaseDefferedCommands()->void:
+	for i in range(_defferedCommands.size()):
+		socket.send_text(_defferedCommands[i])
 
-func _process(_delta):
-	if not Opened:
+var _wasClosed:bool = true
+
+func _process(delta):
+	if _ConnectionIsClosed():
+		_wasClosed = true
 		return
 	
 	socket.poll()
 	
 	if _ConnectionIsOpened():
-		if not Connected: Connected = true
+		_ConnectionJustOpened()
 		_GetPackets()
 	
 	elif _ConnectionIsClosed():
@@ -48,12 +58,9 @@ func _process(_delta):
 
 
 func _ConnectSocket()->void:
-	socket.connect_to_url(url)
+	_defferedCommands.clear()
 	_ReadUUID()
-	SendCommand('user-registration', {
-		'name':Username,
-		'uuid':UUID
-	})
+	socket.connect_to_url(url)
 
 func _GetPackets():
 	while socket.get_available_packet_count():
@@ -61,6 +68,15 @@ func _GetPackets():
 		var packetString:String = packet.get_string_from_utf8()
 		var commandObject = JSON.parse_string(packetString)
 		_EmitCommand(commandObject['command'], commandObject['data'])
+
+func _ConnectionJustOpened():
+	if _wasClosed:
+		_wasClosed = false
+		SendCommand('user-registration', {
+				'name':Username,
+				'uuid':UUID
+			})
+		ReleaseDefferedCommands()
 
 func _ConnectionJustClosed():
 	if Connected:
@@ -71,6 +87,8 @@ func _ConnectionJustClosed():
 
 func _EmitCommand(command:String, data):
 	emit_signal('Command', command, data)
+	if OS.is_debug_build():
+		print(command)
 
 
 
@@ -81,7 +99,7 @@ func _ConnectionIsClosed() -> bool:
 	return socket.get_ready_state() == WebSocketPeer.STATE_CLOSED
 
 func _ReadUUID() -> void:
-	var cookies = JavaScriptBridge.eval('document.cookie;') as String
+	var cookies = JavaScriptBridge.eval('document.cookie;')
 	var start = cookies.find('uuid=')
 	var end = cookies.find(';', start)
 	UUID = cookies.substr(start, end-start).split('=')[1]
