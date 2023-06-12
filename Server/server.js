@@ -22,14 +22,18 @@ class Server {
             console.log("New connection established");
 
             socket.on('message', (data, isBinary) => {
-                const jsonStr = String.fromCharCode(...data);
-                const dataObj = JSON.parse(jsonStr);
-                dataObj.socket = socket;
-
-                let response = this.HandleMessage(dataObj);
-                socket.send(JSON.stringify(response));
+                
             });
         });
+    }
+
+    RecieveMessage(data, isBinary, handler) {
+        const jsonStr = String.fromCharCode(...data);
+        const dataObj = JSON.parse(jsonStr);
+        dataObj.socket = socket;
+
+        let response = this.HandleMessage(dataObj);
+        socket.send(JSON.stringify(response));
     }
 
     HandleMessage(msg){

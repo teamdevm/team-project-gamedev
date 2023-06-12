@@ -45,6 +45,10 @@ class Lobby {
         this.private = true;
     }
 
+    RecieveMessage(data, isBinary){
+
+    }
+
     ConnectUser(user){
         let msg = {
             command: "player-enter-lobby",
