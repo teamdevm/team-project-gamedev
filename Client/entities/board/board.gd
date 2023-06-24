@@ -9,13 +9,14 @@ func _ready():
 # тут должны быть координаты тайлов с соответствкующими буквами 
 var letterTiles = {
 	"A": Vector2i (0, 0),
+	"B": Vector2i (1, 1),
 	"C": Vector2i (2, 2)
 }
 
 func setChips(coord:Vector2i, letter):       #установка фишки по ее координатам 
 	var tls = get_child(0)
 	var tileCoord = letterTiles[letter]
-	tls.set_cell(0, coord, 0, tileCoord)
+	tls.set_cell(0, coord, 1, tileCoord)
 	pass
 
 func _input(event):
