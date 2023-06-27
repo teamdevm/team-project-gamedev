@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjk4li61owkea"
-path="res://.godot/imported/Textures-16.png-f5f108b1345a9f6014cc7f7b0b98e02e.ctex"
+uid="uid://cbhxhdnkw3dch"
+path="res://.godot/imported/NewGameBtnGroup.png-f0b94ea805914175d3deff90b5de3b07.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/board/Textures-16.png"
-dest_files=["res://.godot/imported/Textures-16.png-f5f108b1345a9f6014cc7f7b0b98e02e.ctex"]
+source_file="res://screens/MainMenu2/NewGameBtnGroup.png"
+dest_files=["res://.godot/imported/NewGameBtnGroup.png-f0b94ea805914175d3deff90b5de3b07.ctex"]
 
 [params]
 

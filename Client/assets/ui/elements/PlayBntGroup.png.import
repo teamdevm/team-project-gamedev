@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjk4li61owkea"
-path="res://.godot/imported/Textures-16.png-f5f108b1345a9f6014cc7f7b0b98e02e.ctex"
+uid="uid://o67fgogpja8m"
+path="res://.godot/imported/PlayBntGroup.png-7c346304b388b146c567e8197c43f7a2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/board/Textures-16.png"
-dest_files=["res://.godot/imported/Textures-16.png-f5f108b1345a9f6014cc7f7b0b98e02e.ctex"]
+source_file="res://assets/ui/PlayBntGroup.png"
+dest_files=["res://.godot/imported/PlayBntGroup.png-7c346304b388b146c567e8197c43f7a2.ctex"]
 
 [params]
 
