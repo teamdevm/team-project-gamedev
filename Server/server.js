@@ -1,6 +1,7 @@
 const ws = require('ws');
 const Lobby = require('./Lobbies/LobbyModel');
 const UserService = require('./Users/UserService');
+const RecieveHandler = require('./ServerUtils/WSMessageHandler');
 
 class Server {
     /**
@@ -22,18 +23,9 @@ class Server {
             console.log("New connection established");
 
             socket.on('message', (data, isBinary) => {
-                
+                RecieveHandler(socket, data, isBinary, this.HandleMessage);
             });
         });
-    }
-
-    RecieveMessage(data, isBinary, handler) {
-        const jsonStr = String.fromCharCode(...data);
-        const dataObj = JSON.parse(jsonStr);
-        dataObj.socket = socket;
-
-        let response = this.HandleMessage(dataObj);
-        socket.send(JSON.stringify(response));
     }
 
     HandleMessage(msg){
@@ -61,10 +53,10 @@ class Server {
             case "create-lobby": {
                 console.log("create-lobby fired");
 
-                let lobby = new Lobby();
+                let lobby = new Lobby(this.HandleMessage);
                 this.lobbies[lobby.uuid] = lobby;
 
-                let lobbyObject = this.ConnectUserToLobby(msg.data.uuid, lobby);
+                let lobbyObject = this.ConnectUserToLobby(msg.data.uuid, lobby, socket);
 
                 respObj.data.lobby = lobbyObject;
             }; break;
@@ -79,31 +71,7 @@ class Server {
                     break;
                 }
 
-                let lobbyObject = this.ConnectUserToLobby(msg.data.user_uuid, lobby);
-
-                respObj.data.lobby = lobbyObject;
-            }; break;
-
-            case "disconnect-from-lobby": {
-                console.log("disconnect-from-lobby fired");
-
-                let lobby = this.lobbies[msg.data.lobby_uuid];
-
-                if(!lobby){
-                    respObj.code = 1;
-                    break;
-                }
-
-                let user = UserService.FindUser(msg.data.user_uuid)
-
-                lobby.DisconnectUser(user);
-            }; break;
-
-            case "sync-lobby": {
-                console.log("sync-lobby fired");
-
-                let lobby = this.lobbies[msg.data.uuid];
-                let lobbyObject = lobby.CreateLobbyObject();
+                let lobbyObject = this.ConnectUserToLobby(msg.data.user_uuid, lobby, socket);
 
                 respObj.data.lobby = lobbyObject;
             }; break;
@@ -112,9 +80,9 @@ class Server {
         return respObj;
     }
 
-    ConnectUserToLobby(user_uuid, lobby){
+    ConnectUserToLobby(user_uuid, lobby, socket){
         let user = UserService.FindUser(user_uuid)
-        lobby.ConnectUser(user);
+        lobby.ConnectUser(user, socket);
 
         return lobby.CreateLobbyObject();
     }

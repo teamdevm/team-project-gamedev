@@ -1,6 +1,8 @@
 const { default: ShortUniqueId } = require('short-unique-id');
 const suuid = new ShortUniqueId({ length: 4 });
 const User = require('../Users/UserModel');
+const GameService = require('../Game/GameService');
+const RecieveHandler = require('../ServerUtils/WSMessageHandler');
 const maxPlayerConst = 4;
 
 /**
@@ -37,19 +39,37 @@ class Lobby {
      */
     private;
 
-    constructor(){
+    /**
+     * Started game flag
+     * @type {boolean}
+     */
+    started;
+
+    /**
+     * Game service object which serving lobby
+     * @type {GameService}
+     */
+    gameService;
+
+    _srvMainHandler;
+
+    constructor(_srvMainHandler){
         this.maxPlayers = maxPlayerConst;
         this.currentPlayers = 0;
         this.uuid = suuid();
         this.users = [];
         this.private = true;
+        this._srvMainHandler = _srvMainHandler;
+        this.gameService = null;
+        this.started = false;
     }
 
-    RecieveMessage(data, isBinary){
-
-    }
-
-    ConnectUser(user){
+    /**
+     * Connect user to lobby and send connection message to all users, connected to lobby
+     * @param {User} user User object
+     * @param {WebSocket} socket User's socket
+     */
+    ConnectUser(user, socket){
         let msg = {
             command: "player-enter-lobby",
             data: {
@@ -58,14 +78,22 @@ class Lobby {
             }
         };
 
-        this.users.forEach((item, i, arr) => {
+        this.users.forEach(async (item, i, arr) => {
             item.SendMessage(msg);
         });
 
         this.users.push(user);
         this.currentPlayers++;
+
+        socket.on("message", (data, isBinary) => {
+            RecieveHandler(socket, data, isBinary, this.HandleMessage);
+        });
     }
 
+    /**
+     * Disconnect user from lobby and send message to all users in lobby
+     * @param {User} user 
+     */
     DisconnectUser(user){
         let userIndex = this.users.findIndex((item, i, arr) => {
             if(item.uuid == user.uuid){
@@ -76,6 +104,10 @@ class Lobby {
         this.users.splice(userIndex, 1);
         this.currentPlayers--;
 
+        user.socket.on("message", (data, isBinary) => {
+            RecieveHandler(user.socket, data, isBinary, this._srvMainHandler);
+        });
+
         let msg = {
             command: "player-leave-lobby",
             data: {
@@ -83,9 +115,17 @@ class Lobby {
             }
         };
 
-        this.users.forEach((item, i, arr) => {
+        this.users.forEach(async (item, i, arr) => {
             item.SendMessage(msg);
         });
+    }
+
+    /**
+     * Start game
+     */
+    StartGame(){
+        this.started = true;
+        this.gameService = new GameService(this.users, this._srvMainHandler);
     }
 
     CreateLobbyObject(){
@@ -99,6 +139,43 @@ class Lobby {
             uuid: this.uuid,
             users: usersList
         }
+    }
+
+    HandleMessage(msg){
+        let respObj = {
+            command: msg.command,
+            code: 0,
+            data: {}
+        };
+
+        switch(msg.command){
+            case "disconnect-from-lobby": {
+                console.log("disconnect-from-lobby fired");
+
+                let user = UserService.FindUser(msg.data.user_uuid)
+
+                this.DisconnectUser(user);
+            }; break;
+
+            case "sync-lobby": {
+                console.log("sync-lobby fired");
+
+                let lobbyObject = this.CreateLobbyObject();
+
+                respObj.data.lobby = lobbyObject;
+            }; break;
+
+            case "start-game": {
+                if(msg.data.user_uuid != this.users[0].uuid){
+                    respObj.code = 1;
+                    break;
+                }
+
+                this.StartGame();
+            }
+        }
+
+        return respObj;
     }
 }
 
