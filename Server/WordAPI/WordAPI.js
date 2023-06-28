@@ -19,7 +19,7 @@ class WordAPI {
 
       const def = response.data.def[0];
 
-      if(!("pos" in def)){
+      if(def == undefined){
         return false;
       }
 

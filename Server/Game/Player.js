@@ -88,7 +88,7 @@ class Player {
             }
         }
 
-        handCount += pieces.length;
+        this.handCount += pieces.length;
 
         return this.GetHandLiterals();
     }
