@@ -168,7 +168,7 @@ class Board {
 
     /**
      * Check if all pieces putted horizontal
-     * @param {{vertical: boolean, horizontal: boolean}} linearity 
+     * @param {{horizontal: boolean, vertical: boolean}} linearity 
      * @returns {boolean}
      */
     IsHorizontal(linearity){
@@ -194,7 +194,7 @@ class Board {
 
     /**
      * Check if all pieces putted vertical
-     * @param {{vertical: boolean, horizontal: boolean}} linearity 
+     * @param {{horizontal: boolean, vertical: boolean}} linearity 
      * @returns {boolean}
      */
     IsVertical(linearity){

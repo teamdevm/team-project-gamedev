@@ -2,6 +2,7 @@ const ws = require('ws');
 const Lobby = require('./Lobbies/LobbyModel');
 const UserService = require('./Users/UserService');
 const RecieveHandler = require('./ServerUtils/WSMessageHandler');
+const { v4: uuidv4 } = require('uuid');
 
 class Server {
     /**
@@ -48,6 +49,8 @@ class Server {
                 msg.socket.on("close", (code, reason) => {
                     UserService.UnregisterFromSystem(msg.data.uuid);
                 });
+
+                respObj.data.uuid = uuidv4();
             }; break;
 
             case "create-lobby": {
