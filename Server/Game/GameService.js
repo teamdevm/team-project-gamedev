@@ -54,8 +54,8 @@ class GameService {
                 command: "start-game",
                 data: {
                     hand_literals: this.players[i].GetHandLiterals(),
-                    players: this.GetPlayersInfo(),
                     index: i,
+                    bag_count: this.bag.count,
                     your_turn: false
                 }
             }
@@ -87,7 +87,6 @@ class GameService {
         for(let i = 0; i < this.players.length; i++){
             playersInfo.push({
                 index: i,
-                name: this.players[i].user.name,
                 score: this.players[i].points
             });
         }
@@ -129,6 +128,7 @@ class GameService {
 
     async NextTurn(){
         if(this.GameEndingCheck()){
+            this.GameEnding();
             return;
         }
 
@@ -159,7 +159,10 @@ class GameService {
 
         player.hold = false;
 
-        //Переделка подсчёта очков
+        let totalTurnPoints = this.board.CommitWords();
+        this.board.ClearTurnBuffers();
+
+        this.players[this.currentPlayerIndex].points += totalTurnPoints;
 
         let piecesNums = 7 - player.handCount;
         let pieces = this.bag.TakePieces(piecesNums);
@@ -183,7 +186,7 @@ class GameService {
         this.board.PutPieceOnBoard(data.row, data.col, pieceFromHand);
 
         let putMsg = {
-            command: "put-piece-by-player",
+            command: "put-piece-by-plr",
             data: {
                 row: data.row,
                 col: data.col,
@@ -197,11 +200,11 @@ class GameService {
             }
         });
 
-        //Добавить обработку слова и вычисление очков за слово
+        this.board.WordRecognizer();
 
         return {
             hand_literals: player.GetHandLiterals(),
-            words_value: 0
+            words_value: this.board.CalculatePointsToCommitValue()
         };
     }
 
@@ -219,7 +222,7 @@ class GameService {
         let handLiterals = player.GivePiecesToPlayer([piece]);
 
         let takeMsg = {
-            command: "take-piece-by-player",
+            command: "take-piece-by-plr",
             data: {
                 row: data.row,
                 col: data.col
@@ -232,11 +235,11 @@ class GameService {
             }
         });
 
-        //Добавить обработку слова и вычисление очков за слово
+        this.board.WordRecognizer();
 
         return {
             hand_literals: handLiterals,
-            words_value: 0
+            words_value: this.board.CalculatePointsToCommitValue()
         };
     }
 
@@ -321,6 +324,15 @@ class GameService {
                 }
 
                 respObj.data = this.SwapPlayerPieces(msg.data);
+                this.NextTurn();
+            }; break;
+
+            case "pass-turn": {
+                if(msg.data.user_uuid != this.currentPlayer){
+                    respObject.code = 1;
+                    break;
+                }
+
                 this.NextTurn();
             }; break;
         }

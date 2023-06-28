@@ -101,10 +101,10 @@ class Player {
         let handObj = [];
 
         for(let i = 0; i < this.hand.length; i++){
-            handObj.push({
-                literal: this.hand[i].literal
-            });
+            handObj.push(this.hand[i].literal);
         }
+
+        return handObj;
     }
 
 }
