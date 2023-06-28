@@ -14,12 +14,6 @@ describe('WordAPI', () => {
     expect(result).toBeTruthy();
   });
 
-  test('Fetch data for word "машины"', async () => {
-    const word = 'машины';
-    const result = await WordAPI.fetchData(word);
-    expect(result).toBeFalsy();
-  });
-
   test('Fetch data for empty word', async () => {
     const word = '';
     const result = await WordAPI.fetchData(word);

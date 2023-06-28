@@ -18,6 +18,11 @@ class WordAPI {
       console.log(JSON.stringify(response.data));
 
       const def = response.data.def[0];
+
+      if(!("pos" in def)){
+        return false;
+      }
+
       const partOfSpeech = def.pos;
 
       return partOfSpeech == 'noun';
