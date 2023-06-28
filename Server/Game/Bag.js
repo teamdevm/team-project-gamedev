@@ -48,7 +48,7 @@ class Bag {
     TakePieces(num){
         let piecesToTake = [];
 
-        while(num > 0){
+        while(this.count > 0 && num > 0){
             let bagNum = Math.floor(Math.random() * this.pieces.length);
 
             piecesToTake.push(this.pieces[bagNum].piece);
@@ -58,10 +58,9 @@ class Bag {
                 this.pieces.splice(bagNum, 1);
             }
 
+            this.count--;
             num--;
         }
-
-        this.count -= num;
 
         return piecesToTake;
     }

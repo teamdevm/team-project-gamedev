@@ -184,7 +184,11 @@ class Board {
         
         for(let i = 0; i < this.currentCells.length - 1; i++){
             if(this.currentCells[i + 1].col - this.currentCells[i].col > 1){
-                return false;
+                for(let Bcol = this.currentCells[i].col + 1; Bcol < this.currentCells[i + 1].col; Bcol++){
+                    if(this.board[row][Bcol].piece == null){
+                        return false;
+                    }
+                }
             }
         }
 
@@ -210,7 +214,11 @@ class Board {
         
         for(let i = 0; i < this.currentCells.length - 1; i++){
             if(this.currentCells[i + 1].row - this.currentCells[i].row > 1){
-                return false;
+                for(let Brow = this.currentCells[i].row + 1; Brow < this.currentCells[i + 1].row; Brow++){
+                    if(this.board[Brow][col].piece == null){
+                        return false;
+                    }
+                }
             }
         }
 
@@ -400,6 +408,7 @@ class Board {
      * @param {Piece} piece Piece object to place
      */
     PutPieceOnBoard(row, col, piece){
+        this.wordsToCommit = [];
         this.board[row][col].piece = piece;
         this.currentCells.push(this.board[row][col]);
     }
@@ -411,6 +420,7 @@ class Board {
      * @returns {Piece}
      */
     TakePieceFromBoard(row, col){
+        this.wordsToCommit = [];
         let piece = this.board[row][col].piece;
         this.board[row][col].piece = null;
         this.currentCells.splice(this.currentCells.findIndex((item, idx, arr) => item.col == col && item.row == row));

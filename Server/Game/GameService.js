@@ -107,10 +107,11 @@ class GameService {
         });
 
         if(passesCount == this.players.length || maxHand == 0){
-            this.GameEnding()
+            this.GameEnding();
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     GameEnding(){
@@ -128,7 +129,6 @@ class GameService {
 
     async NextTurn(){
         if(this.GameEndingCheck()){
-            this.GameEnding();
             return;
         }
 
@@ -139,6 +139,7 @@ class GameService {
             let trnMsg = {
                 command: "next-turn",
                 data: {
+                    bag_count: this.bag.count,
                     players_stats: this.GetPlayersInfo(),
                     your_turn: false
                 }
@@ -253,7 +254,8 @@ class GameService {
         let piecesFromHand = player.GetMultiplePiecesFromHand(data.hand_pos);
         let swappedPieces = this.bag.SwapPieces(piecesFromHand);
         player.GivePiecesToPlayer(swappedPieces);
-        player.hold = true;
+
+        this.board.ClearTurnBuffers();
 
         return {
             hand_literals: player.GetHandLiterals()
@@ -281,6 +283,14 @@ class GameService {
 
             this.players[i].user.SendMessage(discMsg);
         }
+    }
+
+    PassTurn(data){
+        let player = this.players.find((item, index, arr) => {
+            return item.user.uuid == data.user_uuid;
+        });
+
+        player.hold = true;
     }
 
     async HandleMessage(msg, callback){
