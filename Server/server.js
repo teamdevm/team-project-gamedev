@@ -26,6 +26,8 @@ class Server {
             socket.onmessage = (event) => {
                 RecieveHandler(socket, event.data, this);
             };
+
+            socket.send(JSON.stringify({uuid: uuidv4()}));
         });
     }
 
@@ -49,8 +51,6 @@ class Server {
                 msg.socket.on("close", (code, reason) => {
                     UserService.UnregisterFromSystem(msg.data.uuid);
                 });
-
-                respObj.data.uuid = uuidv4();
             }; break;
 
             case "create-lobby": {
