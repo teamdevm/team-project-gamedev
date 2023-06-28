@@ -51,15 +51,15 @@ class Lobby {
      */
     gameService;
 
-    _srvMainHandler;
+    _srv;
 
-    constructor(_srvMainHandler){
+    constructor(_srv){
         this.maxPlayers = maxPlayerConst;
         this.currentPlayers = 0;
         this.uuid = suuid();
         this.users = [];
         this.private = true;
-        this._srvMainHandler = _srvMainHandler;
+        this._srv = _srv;
         this.gameService = null;
         this.started = false;
     }
@@ -69,7 +69,7 @@ class Lobby {
      * @param {User} user User object
      * @param {WebSocket} socket User's socket
      */
-    ConnectUser(user, socket){
+    ConnectUser(user){
         let msg = {
             command: "player-enter-lobby",
             data: {
@@ -85,9 +85,9 @@ class Lobby {
         this.users.push(user);
         this.currentPlayers++;
 
-        socket.on("message", (data, isBinary) => {
-            RecieveHandler(socket, data, isBinary, this.HandleMessage);
-        });
+        user.socket.onmessage = (event) => {
+            RecieveHandler(user.socket, event.data, this);
+        };
     }
 
     /**
@@ -104,9 +104,9 @@ class Lobby {
         this.users.splice(userIndex, 1);
         this.currentPlayers--;
 
-        user.socket.on("message", (data, isBinary) => {
-            RecieveHandler(user.socket, data, isBinary, this._srvMainHandler);
-        });
+        user.socket.onmessage = (event) => {
+            RecieveHandler(user.socket, event.data, this._srv);
+        };
 
         let msg = {
             command: "player-leave-lobby",
@@ -125,7 +125,7 @@ class Lobby {
      */
     StartGame(){
         this.started = true;
-        this.gameService = new GameService(this.users, this._srvMainHandler);
+        this.gameService = new GameService(this.users, this._srv);
     }
 
     CreateLobbyObject(){

@@ -18,8 +18,12 @@ class Bag {
     count;
 
     constructor(type){
-        fs.readFile(`/Game/${type}_board.txt`, "utf8", (error, data) => {
-            
+        fs.readFile(`Game/${type}_board.txt`, "utf8", (error, data) => {
+            if(error){
+                console.log(error.message);                
+            }
+
+
             let lines = data.split('\n');
 
             lines.forEach((element) => {

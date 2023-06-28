@@ -1,9 +1,8 @@
-module.exports = (socket, data, isBinary, handlerFunction) => {
-    const jsonStr = String.fromCharCode(...data);
-    const dataObj = JSON.parse(jsonStr);
+module.exports = (socket, data, context) => {
+    const dataObj = JSON.parse(data);
     dataObj.socket = socket;
 
-    handlerFunction(dataObj, (response) => {
+    context.HandleMessage(dataObj, (response) => {
         socket.send(JSON.stringify(response));
     });
 }

@@ -44,9 +44,9 @@ class GameService {
         this.InitializePlayers(users);
 
         users.forEach(element => {
-            element.socket.on("message", (data, isBinary) => {
-                RecieveHandler(element.socket, data, isBinary, this.HandleMessage);
-            })
+            element.socket.onmessage = (event) => {
+                RecieveHandler(element.socket, event.data, this);
+            };
         });
 
         for(let i = 0; i < this.players.length; i++){

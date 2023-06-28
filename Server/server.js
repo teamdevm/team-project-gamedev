@@ -22,9 +22,9 @@ class Server {
         this.srv.on('connection', socket => {
             console.log("New connection established");
 
-            socket.on('message', (data, isBinary) => {
-                RecieveHandler(socket, data, isBinary, this.HandleMessage);
-            });
+            socket.onmessage = (event) => {
+                RecieveHandler(socket, event.data, this);
+            };
         });
     }
 
@@ -53,10 +53,10 @@ class Server {
             case "create-lobby": {
                 console.log("create-lobby fired");
 
-                let lobby = new Lobby(this.HandleMessage);
+                let lobby = new Lobby(this);
                 this.lobbies[lobby.uuid] = lobby;
 
-                let lobbyObject = this.ConnectUserToLobby(msg.data.uuid, lobby, socket);
+                let lobbyObject = this.ConnectUserToLobby(msg.data.uuid, lobby);
 
                 respObj.data.lobby = lobbyObject;
             }; break;
@@ -66,12 +66,12 @@ class Server {
 
                 let lobby = this.lobbies[msg.data.lobby_uuid];
 
-                if(!lobby){
+                if(!lobby || lobby.started){
                     respObj.code = 1;
                     break;
                 }
 
-                let lobbyObject = this.ConnectUserToLobby(msg.data.user_uuid, lobby, socket);
+                let lobbyObject = this.ConnectUserToLobby(msg.data.user_uuid, lobby);
 
                 respObj.data.lobby = lobbyObject;
             }; break;
@@ -80,9 +80,9 @@ class Server {
         callback(respObj);
     }
 
-    ConnectUserToLobby(user_uuid, lobby, socket){
+    ConnectUserToLobby(user_uuid, lobby){
         let user = UserService.FindUser(user_uuid)
-        lobby.ConnectUser(user, socket);
+        lobby.ConnectUser(user);
 
         return lobby.CreateLobbyObject();
     }

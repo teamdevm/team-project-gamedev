@@ -78,7 +78,7 @@ class Board {
     constructor(){
         this.currentCells = [];
 
-        fs.readFile('/Game/classic_board.txt', "utf8", (error, data) => {
+        fs.readFile('Game/classic_board.txt', "utf8", (error, data) => {
             let cellsInfo = data.split('\n');
 
             boardInfo = cellsInfo[0].split(',');
