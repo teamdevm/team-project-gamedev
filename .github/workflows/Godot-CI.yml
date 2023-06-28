@@ -27,6 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: GoDotExport
+        id: export
         uses: firebelley/godot-export@v5.2.0
         with: 
           godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.0.3/Godot_v4.0.3-stable_linux.x86_64.zip
@@ -40,5 +41,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
-          tag: ${{ github.ref_name }}
+          tag: Client
           artifacts: ${{ steps.export.outputs.archive_directory }}/*
+          allowUpdates: true
