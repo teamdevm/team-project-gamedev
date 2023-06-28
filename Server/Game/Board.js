@@ -77,12 +77,17 @@ class Board {
 
     constructor(){
         this.currentCells = [];
+        this.board = [];
+        this.wordsToCommit = [];
+        this.commitedWords = [];
+        this.cols = 0;
+        this.rows = 0;        
 
-        const data = fs.readFileSync('/Game/classic_board.txt', "utf8");
+        const data = fs.readFileSync(__dirname + '/classic_board.txt', "utf8");
 
         let cellsInfo = data.split('\n');
 
-        boardInfo = cellsInfo[0].split(',');
+        let boardInfo = cellsInfo[0].split(',');
         this.rows = parseInt(boardInfo[0]);
         this.cols = parseInt(boardInfo[1]);
 
@@ -97,7 +102,10 @@ class Board {
 
                 if(specialCell.row == row && specialCell.col == col){
                     cell.type = specialCell.type;
-                    specialCell = this.ParseCellData(cellsInfo[specialCellIndex++]);
+
+                    if(specialCellIndex < cellsInfo.length){
+                        specialCell = this.ParseCellData(cellsInfo[specialCellIndex++]);
+                    }
                 }
 
                 rowCells[col] = cell;

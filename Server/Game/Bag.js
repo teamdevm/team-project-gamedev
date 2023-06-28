@@ -18,7 +18,9 @@ class Bag {
     count;
 
     constructor(type){
-        const data = fs.readFileSync(`/Game/${type}_board.txt`, "utf8");
+        const data = fs.readFileSync(__dirname + `/${type}_pieces.txt`, "utf8");
+        this.pieces = [];
+        this.count = 0;
 
         let lines = data.split('\n');
 
@@ -49,11 +51,11 @@ class Bag {
         while(num > 0){
             let bagNum = Math.floor(Math.random() * this.pieces.length);
 
-            piecesToTake.push(this.pieces.length[bagNum].piece);
-            this.pieces.length[bagNum].count--;
+            piecesToTake.push(this.pieces[bagNum].piece);
+            this.pieces[bagNum].count--;
 
-            if(this.pieces.length[bagNum].count == 0){
-                this.piece.splice(bagNum, 1);
+            if(this.pieces[bagNum].count == 0){
+                this.pieces.splice(bagNum, 1);
             }
 
             num--;

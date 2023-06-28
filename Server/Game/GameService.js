@@ -73,12 +73,12 @@ class GameService {
 
         for(let i = 0; i < users.length; i++){
             let hand = this.bag.TakePieces(7);
-            let player = new Player(users[i].uuid, hand);
+            let player = new Player(users[i], hand);
             this.players.push(player);
         }
         
         this.currentPlayerIndex = Math.floor(Math.random() * this.players.length);
-        this.currentPlayer = players[currentPlayerIndex].uuid;
+        this.currentPlayer = this.players[this.currentPlayerIndex].user.uuid;
     }
 
     GetPlayersInfo(){
@@ -291,7 +291,7 @@ class GameService {
         switch(msg.command){
             case "put-piece": {
                 if(msg.data.user_uuid != this.currentPlayer){
-                    respObject.code = 1;
+                    respObj.code = 1;
                     break;
                 }
 
@@ -300,7 +300,7 @@ class GameService {
 
             case "take-piece": {
                 if(msg.data.user_uuid != this.currentPlayer){
-                    respObject.code = 1;
+                    respObj.code = 1;
                     break;
                 }
 
@@ -309,7 +309,7 @@ class GameService {
 
             case "end-turn": {
                 if(msg.data.user_uuid != this.currentPlayer){
-                    respObject.code = 1;
+                    respObj.code = 1;
                     break;
                 }
 
@@ -319,7 +319,7 @@ class GameService {
 
             case "swap-pieces": {
                 if(msg.data.user_uuid != this.currentPlayer){
-                    respObject.code = 1;
+                    respObj.code = 1;
                     break;
                 }
 
@@ -329,7 +329,7 @@ class GameService {
 
             case "pass-turn": {
                 if(msg.data.user_uuid != this.currentPlayer){
-                    respObject.code = 1;
+                    respObj.code = 1;
                     break;
                 }
 
