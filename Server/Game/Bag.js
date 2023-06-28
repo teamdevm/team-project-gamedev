@@ -18,28 +18,23 @@ class Bag {
     count;
 
     constructor(type){
-        fs.readFile(`Game/${type}_board.txt`, "utf8", (error, data) => {
-            if(error){
-                console.log(error.message);                
-            }
+        const data = fs.readFileSync(`/Game/${type}_board.txt`, "utf8");
 
+        let lines = data.split('\n');
 
-            let lines = data.split('\n');
+        lines.forEach((element) => {
+            let pieceInfo = element.split(',');
 
-            lines.forEach((element) => {
-                let pieceInfo = element.split(',');
-
-                let pieceLiteral = pieceInfo[0];
-                let pieceCost = parseInt(pieceInfo[1]);
-                let pieceCount = parseInt(pieceInfo[2]);
-               
-                this.pieces.push({
-                    piece: new Piece(pieceLiteral, pieceCost),
-                    count: parseInt(pieceCount)
-                });
-
-                this.count += pieceCount;
+            let pieceLiteral = pieceInfo[0];
+            let pieceCost = parseInt(pieceInfo[1]);
+            let pieceCount = parseInt(pieceInfo[2]);
+            
+            this.pieces.push({
+                piece: new Piece(pieceLiteral, pieceCost),
+                count: parseInt(pieceCount)
             });
+
+            this.count += pieceCount;
         });
     }
 

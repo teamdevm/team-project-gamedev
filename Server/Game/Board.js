@@ -78,33 +78,33 @@ class Board {
     constructor(){
         this.currentCells = [];
 
-        fs.readFile('Game/classic_board.txt', "utf8", (error, data) => {
-            let cellsInfo = data.split('\n');
+        const data = fs.readFileSync('/Game/classic_board.txt', "utf8");
 
-            boardInfo = cellsInfo[0].split(',');
-            this.rows = parseInt(boardInfo[0]);
-            this.cols = parseInt(boardInfo[1]);
+        let cellsInfo = data.split('\n');
 
-            let specialCellIndex = 1;
-            let specialCell = this.ParseCellData(cellsInfo[specialCellIndex++]);
+        boardInfo = cellsInfo[0].split(',');
+        this.rows = parseInt(boardInfo[0]);
+        this.cols = parseInt(boardInfo[1]);
 
-            for(let row = 0; row < this.rows; row++){
-                let rowCells = [];
+        let specialCellIndex = 1;
+        let specialCell = this.ParseCellData(cellsInfo[specialCellIndex++]);
 
-                for(let col = 0; col < this.cols; col++){
-                    let cell = new Cell(row, col);
+        for(let row = 0; row < this.rows; row++){
+            let rowCells = [];
 
-                    if(specialCell.row == row && specialCell.col == col){
-                        cell.type = specialCell.type;
-                        specialCell = this.ParseCellData(cellsInfo[specialCellIndex++]);
-                    }
+            for(let col = 0; col < this.cols; col++){
+                let cell = new Cell(row, col);
 
-                    rowCells[col] = cell;
+                if(specialCell.row == row && specialCell.col == col){
+                    cell.type = specialCell.type;
+                    specialCell = this.ParseCellData(cellsInfo[specialCellIndex++]);
                 }
 
-                this.board[row] = rowCells;
+                rowCells[col] = cell;
             }
-        });
+
+            this.board[row] = rowCells;
+        }
     }
 
     /**
