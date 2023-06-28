@@ -1,7 +1,7 @@
 const http = require('http');
 
 class WordAPI {
-  async fetchData(word) {
+  static async fetchData(word) {
     const axios = require('axios');
 
     const API_KEY = 'dict.1.1.20230628T123745Z.91aea0b6dc5f3dc5.07743ddf36fb62b79b37508779f667b387d46dca';
