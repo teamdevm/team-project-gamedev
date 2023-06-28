@@ -3,6 +3,7 @@ const suuid = new ShortUniqueId({ length: 4 });
 const User = require('../Users/UserModel');
 const GameService = require('../Game/GameService');
 const RecieveHandler = require('../ServerUtils/WSMessageHandler');
+const UserService = require('../Users/UserService');
 const maxPlayerConst = 4;
 
 /**

@@ -172,10 +172,10 @@ class Board {
      * @returns {boolean}
      */
     IsHorizontal(linearity){
-        let col = this.currentCells[0].col;
+        let row = this.currentCells[0].row;
 
         for(let i = 1; i < this.currentCells.length; i++){
-            if(this.currentCells[i].col != col){
+            if(this.currentCells[i].row != row){
                 return false;
             }
         }
@@ -198,10 +198,10 @@ class Board {
      * @returns {boolean}
      */
     IsVertical(linearity){
-        let row = this.currentCells[0].row;
+        let col = this.currentCells[0].col;
 
         for(let i = 1; i < this.currentCells.length; i++){
-            if(this.currentCells[i].row != row){
+            if(this.currentCells[i].col != col){
                 return false;
             }
         }
@@ -244,7 +244,7 @@ class Board {
     async CalculateWord(word, cells){
         let accepted = await WordAPI.fetchData(word);
 
-        if(!(accepted && this.CheckIfWordExisted(word))){
+        if(!(accepted && !this.CheckIfWordExisted(word))){
             return null;
         }
 

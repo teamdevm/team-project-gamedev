@@ -250,7 +250,7 @@ class GameService {
             return item.user.uuid == data.user_uuid;
         });
 
-        let piecesFromHand = player.GetMultiplePiecesFromHand(data.han_pos);
+        let piecesFromHand = player.GetMultiplePiecesFromHand(data.hand_pos);
         let swappedPieces = this.bag.SwapPieces(piecesFromHand);
         player.GivePiecesToPlayer(swappedPieces);
         player.hold = true;

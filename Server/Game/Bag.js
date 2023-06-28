@@ -61,6 +61,8 @@ class Bag {
             num--;
         }
 
+        this.count -= num;
+
         return piecesToTake;
     }
 
@@ -71,10 +73,20 @@ class Bag {
     PutPieces(pieces){
         pieces.forEach((element) => {
             let piece = this.pieces.find((item, index, arr) => {
-                return element.literal == item.literal;
+                return element.literal == item.piece.literal;
             });
 
-            piece.count++;
+            if(piece == undefined){
+                this.pieces.push({
+                    piece: element,
+                    count: 1
+                });
+
+                this.count++;
+            } else {
+                piece.count++;
+                this.count++;
+            }
         });
     }
 
