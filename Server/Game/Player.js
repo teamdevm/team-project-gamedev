@@ -101,7 +101,11 @@ class Player {
         let handObj = [];
 
         for(let i = 0; i < this.hand.length; i++){
-            handObj.push(this.hand[i].literal);
+            if(this.hand[i] != null){
+                handObj.push(this.hand[i].literal);
+            } else {
+                handObj.push(null);
+            }
         }
 
         return handObj;

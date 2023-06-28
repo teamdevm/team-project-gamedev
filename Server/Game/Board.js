@@ -244,7 +244,7 @@ class Board {
     async CalculateWord(word, cells){
         let accepted = await WordAPI.fetchData(word);
 
-        if(!accepted && this.CheckIfWordExisted(word)){
+        if(!(accepted && this.CheckIfWordExisted(word))){
             return null;
         }
 
@@ -303,7 +303,7 @@ class Board {
         }
 
         let wordStr = this.BuildWord(cells);
-        let points = await this.CalculateWord(wordStr);
+        let points = await this.CalculateWord(wordStr, cells);
 
         if(points != null){
             this.wordsToCommit.push(new Word(wordStr, cells, points));
@@ -329,7 +329,7 @@ class Board {
         }
 
         let wordStr = this.BuildWord(cells);
-        let points = await this.CalculateWord(wordStr);
+        let points = await this.CalculateWord(wordStr, cells);
 
         if(points != null){
             this.wordsToCommit.push(new Word(wordStr, cells, points));
