@@ -154,7 +154,7 @@ class GameService {
 
     EndTurn(data){
         let player = this.players.find((item, index, arr) => {
-            return item.uuid == data.user_uuid;
+            return item.user.uuid == data.user_uuid;
         });
 
         player.hold = false;
@@ -179,7 +179,7 @@ class GameService {
         }
 
         let player = this.players.find((item, index, arr) => {
-            return item.uuid == data.user_uuid;
+            return item.user.uuid == data.user_uuid;
         });
 
         let pieceFromHand = player.GetPieceFromHand(data.hand_pos);
@@ -215,7 +215,7 @@ class GameService {
         }
 
         let player = this.players.find((item, index, arr) => {
-            return item.uuid == data.user_uuid;
+            return item.user.uuid == data.user_uuid;
         });
 
         let piece = this.board.TakePieceFromBoard(data.row, data.col);
@@ -245,7 +245,7 @@ class GameService {
 
     SwapPlayerPieces(data){
         let player = this.players.find((item, index, arr) => {
-            return item.uuid == data.user_uuid;
+            return item.user.uuid == data.user_uuid;
         });
 
         let piecesFromHand = player.GetMultiplePiecesFromHand(data.han_pos);
@@ -260,7 +260,7 @@ class GameService {
 
     PlayerDisconnected(data){
         let playerIndex = this.players.findIndex((item, index, arr) => {
-            return item.uuid == data.user_uuid;
+            return item.user.uuid == data.user_uuid;
         });
 
         let playersPieces = this.players[playerIndex].GetMultiplePiecesFromHand([0, 1, 2, 3, 4, 5, 6]);

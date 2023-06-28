@@ -4,7 +4,7 @@
   "description": "backend server for erudit game",
   "main": "index.js",
   "scripts": {
-    "test": "node WordAPI/unit.test.js",
+    "test": "jest WordAPI/unit.test.js",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
