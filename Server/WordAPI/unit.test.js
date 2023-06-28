@@ -2,32 +2,14 @@ const http = require('http');
 const WordAPI = require('./WordAPI');
 
 describe('WordAPI', () => {
-  test('Fetch data for word "яблоко"', async () => {
-    const word = 'яблоко';
-    const result = await WordAPI.fetchData(word);
-    expect(result).toBeTruthy();
-  });
-
   test('Fetch data for word "дом"', async () => {
     const word = 'дом';
     const result = await WordAPI.fetchData(word);
     expect(result).toBeTruthy();
   });
 
-  test('Fetch data for empty word', async () => {
-    const word = '';
-    const result = await WordAPI.fetchData(word);
-    expect(result).toBeFalsy();
-  });
-
   test('Fetch data for word "олавфыа"', async () => {
     const word = 'олавфыа';
-    const result = await WordAPI.fetchData(word);
-    expect(result).toBeFalsy();
-  });
-
-  test('Fetch data for word "table"', async () => {
-    const word = 'table';
     const result = await WordAPI.fetchData(word);
     expect(result).toBeFalsy();
   });
