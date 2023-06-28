@@ -244,7 +244,7 @@ class Board {
     async CalculateWord(word, cells){
         let accepted = await WordAPI.fetchData(word);
 
-        if(!accepted && this.CheckIfWordExisted(word)){
+        if(accepted && this.CheckIfWordExisted(word)){
             return null;
         }
 
