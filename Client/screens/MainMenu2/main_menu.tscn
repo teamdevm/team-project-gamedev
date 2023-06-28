@@ -1,9 +1,29 @@
 [gd_scene load_steps=5 format=3 uid="uid://540ip4dmhmfb"]
 
 [ext_resource type="Texture2D" uid="uid://75xht14s3gl7" path="res://screens/MainMenu2/Group 1.png" id="1_fk7vl"]
-[ext_resource type="Texture2D" uid="uid://2p75ku1rtxk1" path="res://screens/MainMenu2/enterUrNameLine.png" id="2_qupj2"]
-[ext_resource type="Texture2D" uid="uid://cbhxhdnkw3dch" path="res://screens/MainMenu2/NewGameBtnGroup.png" id="3_nvnck"]
-[ext_resource type="Texture2D" uid="uid://b6itv7ykvr5pb" path="res://screens/MainMenu2/JoinByCodeGroup.png" id="4_ba7ww"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eyth7"]
+bg_color = Color(1, 0.945098, 0.462745, 0.72549)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayfuv"]
+bg_color = Color(0.960784, 0.960784, 0.960784, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4wavi"]
+bg_color = Color(1, 0.886275, 0.662745, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+shadow_size = 2
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -44,41 +64,21 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_fk7vl")
 
-[node name="EnterYourNameLineGroup" type="Control" parent="."]
+[node name="EnterYourNameLine" type="LineEdit" parent="."]
 layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.48
 anchor_top = 0.297
 anchor_right = 0.48
 anchor_bottom = 0.297
-offset_left = -463.96
-offset_top = -47.456
-offset_right = 544.04
-offset_bottom = 60.544
+offset_left = -332.96
+offset_top = 7.54401
+offset_right = 675.04
+offset_bottom = 115.544
 scale = Vector2(0.7, 0.7)
-
-[node name="enterYourNameLine" type="TextureRect" parent="EnterYourNameLineGroup"]
-layout_mode = 2
-offset_left = 222.857
-offset_top = 125.714
-offset_right = 1230.86
-offset_bottom = 233.714
-texture = ExtResource("2_qupj2")
-
-[node name="enterYourName" type="Label" parent="EnterYourNameLineGroup"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.696
-anchor_top = 1.634
-anchor_right = 0.696
-anchor_bottom = 1.634
-offset_left = -428.711
-offset_top = -35.0434
-offset_right = 579.289
-offset_bottom = 34.9566
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.160784, 0.670588, 0.956863, 0.486275)
+theme_override_colors/font_color = Color(0.160784, 0.670588, 0.956863, 0.494118)
 theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_eyth7")
 text = "enter your name"
 
 [node name="newGameBtn" type="Button" parent="."]
@@ -95,7 +95,12 @@ offset_bottom = 137.896
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
-icon = ExtResource("3_nvnck")
+theme_override_colors/font_color = Color(0.909804, 0.713726, 0.215686, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_ayfuv")
+text = "NEW GAME"
 
 [node name="or" type="Label" parent="."]
 layout_mode = 1
@@ -116,15 +121,20 @@ text = "OR"
 [node name="enterCodeBtn" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.514
-anchor_top = 0.854
-anchor_right = 0.514
-anchor_bottom = 0.854
-offset_left = -76.128
-offset_top = -40.392
-offset_right = 241.872
-offset_bottom = 132.608
+anchor_left = 0.517
+anchor_top = 0.851
+anchor_right = 0.517
+anchor_bottom = 0.851
+offset_left = -79.584
+offset_top = -43.448
+offset_right = 238.416
+offset_bottom = 129.552
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
-icon = ExtResource("4_ba7ww")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_4wavi")
+text = "ENTER CODE"

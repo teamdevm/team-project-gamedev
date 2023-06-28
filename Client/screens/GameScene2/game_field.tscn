@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bfyjdmspa3blt"]
+[gd_scene load_steps=19 format=3 uid="uid://bfyjdmspa3blt"]
 
 [ext_resource type="Texture2D" uid="uid://ceo2ymuno0whr" path="res://screens/Lobby2/PlayersListBackground.png" id="1_qilyy"]
 [ext_resource type="Texture2D" uid="uid://b1m6eascmt3uw" path="res://screens/Lobby2/playersListPanelGroup.png" id="2_hwx7n"]
@@ -6,7 +6,74 @@
 [ext_resource type="Texture2D" uid="uid://bolxfn02iof3b" path="res://screens/Lobby2/backBtn.png" id="4_cxkt8"]
 [ext_resource type="Texture2D" uid="uid://c8jmtu7fe487i" path="res://screens/GameScene2/lettersBack.png" id="5_hhjxn"]
 [ext_resource type="Texture2D" uid="uid://smruy3oy6njk" path="res://screens/GameScene2/LettersBagGroup.png" id="6_embrr"]
-[ext_resource type="Texture2D" uid="uid://c1hei03molb81" path="res://screens/GameScene2/UrLetter.png" id="7_j7v6h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vmvbc"]
+bg_color = Color(0.6, 0.6, 0.6, 0.0784314)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iaq35"]
+bg_color = Color(0.6, 0.6, 0.6, 0.0705882)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ka4xm"]
+bg_color = Color(0.717647, 0.87451, 0.988235, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n5mp5"]
+bg_color = Color(0.717647, 0.87451, 0.988235, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lm1mh"]
+bg_color = Color(0.717647, 0.87451, 0.988235, 1)
+corner_radius_top_left = 90
+corner_radius_top_right = 90
+corner_radius_bottom_right = 90
+corner_radius_bottom_left = 90
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f2qcg"]
+bg_color = Color(0.462745, 0.196078, 0.729412, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_27qov"]
+bg_color = Color(0.462745, 0.196078, 0.729412, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqkpe"]
+bg_color = Color(0.462745, 0.196078, 0.729412, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3xvl"]
+bg_color = Color(0.462745, 0.196078, 0.729412, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6l7a2"]
+bg_color = Color(0.462745, 0.196078, 0.729412, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6iu8n"]
+bg_color = Color(0.462745, 0.196078, 0.729412, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bcsi6"]
+bg_color = Color(0.462745, 0.196078, 0.729412, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="GameField" type="Control"]
 layout_mode = 3
@@ -47,7 +114,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_hwx7n")
 
-[node name="PlayerName" type="Label" parent="Container"]
+[node name="PlayerName" type="LineEdit" parent="Container"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -59,6 +126,7 @@ offset_bottom = 133.0
 grow_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_vmvbc")
 text = "player1
 "
 
@@ -70,7 +138,7 @@ offset_right = -230.0
 offset_bottom = 120.0
 texture = ExtResource("3_4nd22")
 
-[node name="score" type="Label" parent="Container"]
+[node name="score" type="LineEdit" parent="Container"]
 layout_mode = 0
 offset_left = -50.0
 offset_top = 80.0
@@ -78,15 +146,17 @@ offset_right = -8.0
 offset_bottom = 133.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_iaq35")
 text = "25"
 
 [node name="backBtn" type="Button" parent="."]
 layout_mode = 1
 offset_right = 100.0
 offset_bottom = 84.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_ka4xm")
 icon = ExtResource("4_cxkt8")
 
-[node name="RoomCode" type="Label" parent="."]
+[node name="RoomCode" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -95,7 +165,9 @@ offset_left = -183.5
 offset_right = 183.5
 offset_bottom = 91.0
 grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_n5mp5")
 text = "112 225 505"
 
 [node name="lettersBack" type="TextureRect" parent="."]
@@ -105,11 +177,13 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
+offset_left = -371.0
+offset_top = -127.0
+offset_right = 392.0
+offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(1.1, 1.1)
 texture = ExtResource("5_hhjxn")
 
 [node name="lettersBagBtn" type="Button" parent="."]
@@ -122,102 +196,131 @@ offset_right = 256.0
 offset_bottom = 74.0
 grow_vertical = 0
 scale = Vector2(0.7, 0.7)
+theme_override_styles/normal = SubResource("StyleBoxFlat_lm1mh")
 icon = ExtResource("6_embrr")
 
-[node name="letter" type="TextureRect" parent="."]
+[node name="letter" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -54.0
-offset_top = -98.0
-offset_right = 54.0
+offset_left = -351.0
+offset_top = -108.0
+offset_right = -219.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("7_j7v6h")
+scale = Vector2(0.8, 0.8)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_f2qcg")
 
-[node name="letter2" type="TextureRect" parent="."]
+[node name="letter2" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -370.0
-offset_top = -98.0
-offset_right = -262.0
+offset_left = -236.0
+offset_top = -108.0
+offset_right = -104.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("7_j7v6h")
+scale = Vector2(0.8, 0.8)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_27qov")
 
-[node name="letter3" type="TextureRect" parent="."]
+[node name="letter3" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -265.0
-offset_top = -98.0
-offset_right = -157.0
+offset_left = -120.0
+offset_top = -108.0
+offset_right = 12.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("7_j7v6h")
+scale = Vector2(0.8, 0.8)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_uqkpe")
 
-[node name="letter4" type="TextureRect" parent="."]
+[node name="letter4" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -160.0
-offset_top = -98.0
-offset_right = -52.0
+offset_left = -5.0
+offset_top = -108.0
+offset_right = 127.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("7_j7v6h")
+scale = Vector2(0.8, 0.8)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_r3xvl")
 
-[node name="letter5" type="TextureRect" parent="."]
+[node name="letter5" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 55.0
-offset_top = -98.0
-offset_right = 163.0
+offset_left = 111.0
+offset_top = -108.0
+offset_right = 243.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("7_j7v6h")
+scale = Vector2(0.8, 0.8)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_6l7a2")
 
-[node name="letter6" type="TextureRect" parent="."]
+[node name="letter6" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 160.0
-offset_top = -98.0
-offset_right = 268.0
+offset_left = 227.0
+offset_top = -108.0
+offset_right = 359.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("7_j7v6h")
+scale = Vector2(0.8, 0.8)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_6iu8n")
 
-[node name="letter7" type="TextureRect" parent="."]
+[node name="letter7" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 265.0
-offset_top = -98.0
-offset_right = 373.0
+offset_left = 342.0
+offset_top = -108.0
+offset_right = 474.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("7_j7v6h")
+scale = Vector2(0.8, 0.8)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_bcsi6")
