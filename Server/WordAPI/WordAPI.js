@@ -15,6 +15,8 @@ class WordAPI {
         },
       });
 
+      console.log(JSON.stringify(response.data));
+
       const def = response.data.def[0];
       const partOfSpeech = def.pos;
 
