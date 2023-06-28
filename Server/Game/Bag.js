@@ -18,28 +18,25 @@ class Bag {
     count;
 
     constructor(type){
-        fs.readFile(`Game/${type}_board.txt`, "utf8", (error, data) => {
-            if(error){
-                console.log(error.message);                
-            }
+        const data = fs.readFileSync(__dirname + `/${type}_pieces.txt`, "utf8");
+        this.pieces = [];
+        this.count = 0;
 
+        let lines = data.split('\n');
 
-            let lines = data.split('\n');
+        lines.forEach((element) => {
+            let pieceInfo = element.split(',');
 
-            lines.forEach((element) => {
-                let pieceInfo = element.split(',');
-
-                let pieceLiteral = pieceInfo[0];
-                let pieceCost = parseInt(pieceInfo[1]);
-                let pieceCount = parseInt(pieceInfo[2]);
-               
-                this.pieces.push({
-                    piece: new Piece(pieceLiteral, pieceCost),
-                    count: parseInt(pieceCount)
-                });
-
-                this.count += pieceCount;
+            let pieceLiteral = pieceInfo[0];
+            let pieceCost = parseInt(pieceInfo[1]);
+            let pieceCount = parseInt(pieceInfo[2]);
+            
+            this.pieces.push({
+                piece: new Piece(pieceLiteral, pieceCost),
+                count: parseInt(pieceCount)
             });
+
+            this.count += pieceCount;
         });
     }
 
@@ -54,11 +51,11 @@ class Bag {
         while(num > 0){
             let bagNum = Math.floor(Math.random() * this.pieces.length);
 
-            piecesToTake.push(this.pieces.length[bagNum].piece);
-            this.pieces.length[bagNum].count--;
+            piecesToTake.push(this.pieces[bagNum].piece);
+            this.pieces[bagNum].count--;
 
-            if(this.pieces.length[bagNum].count == 0){
-                this.piece.splice(bagNum, 1);
+            if(this.pieces[bagNum].count == 0){
+                this.pieces.splice(bagNum, 1);
             }
 
             num--;

@@ -77,34 +77,42 @@ class Board {
 
     constructor(){
         this.currentCells = [];
+        this.board = [];
+        this.wordsToCommit = [];
+        this.commitedWords = [];
+        this.cols = 0;
+        this.rows = 0;        
 
-        fs.readFile('Game/classic_board.txt', "utf8", (error, data) => {
-            let cellsInfo = data.split('\n');
+        const data = fs.readFileSync(__dirname + '/classic_board.txt', "utf8");
 
-            boardInfo = cellsInfo[0].split(',');
-            this.rows = parseInt(boardInfo[0]);
-            this.cols = parseInt(boardInfo[1]);
+        let cellsInfo = data.split('\n');
 
-            let specialCellIndex = 1;
-            let specialCell = this.ParseCellData(cellsInfo[specialCellIndex++]);
+        let boardInfo = cellsInfo[0].split(',');
+        this.rows = parseInt(boardInfo[0]);
+        this.cols = parseInt(boardInfo[1]);
 
-            for(let row = 0; row < this.rows; row++){
-                let rowCells = [];
+        let specialCellIndex = 1;
+        let specialCell = this.ParseCellData(cellsInfo[specialCellIndex++]);
 
-                for(let col = 0; col < this.cols; col++){
-                    let cell = new Cell(row, col);
+        for(let row = 0; row < this.rows; row++){
+            let rowCells = [];
 
-                    if(specialCell.row == row && specialCell.col == col){
-                        cell.type = specialCell.type;
+            for(let col = 0; col < this.cols; col++){
+                let cell = new Cell(row, col);
+
+                if(specialCell.row == row && specialCell.col == col){
+                    cell.type = specialCell.type;
+
+                    if(specialCellIndex < cellsInfo.length){
                         specialCell = this.ParseCellData(cellsInfo[specialCellIndex++]);
                     }
-
-                    rowCells[col] = cell;
                 }
 
-                this.board[row] = rowCells;
+                rowCells[col] = cell;
             }
-        });
+
+            this.board[row] = rowCells;
+        }
     }
 
     /**
