@@ -202,10 +202,12 @@ class GameService {
 
         await this.board.WordRecognizer();
 
-        return {
+        let respObj = {
             hand_literals: player.GetHandLiterals(),
             words_value: this.board.CalculatePointsToCommitValue()
         };
+
+        return respObj;
     }
 
 
