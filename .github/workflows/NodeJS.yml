@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: [ "ci/cd" ]
 
+defaults:
+  run:
+    working-directory: ./Server/
+
 jobs:
   build:
 
@@ -28,10 +32,5 @@ jobs:
         cache: 'npm'
         
     - run: npm ci
-      working-directory: ./Server/
-      
     - run: npm run build --if-present
-      working-directory: ./Server/
-      
     - run: npm test
-      working-directory: ./Server/
