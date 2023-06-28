@@ -141,7 +141,7 @@ class Lobby {
         }
     }
 
-    HandleMessage(msg){
+    HandleMessage(msg, callback){
         let respObj = {
             command: msg.command,
             code: 0,
@@ -175,7 +175,7 @@ class Lobby {
             }
         }
 
-        return respObj;
+        callback(respObj);
     }
 }
 

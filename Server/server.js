@@ -28,7 +28,7 @@ class Server {
         });
     }
 
-    HandleMessage(msg){
+    HandleMessage(msg, callback){
         let respObj = {
             command: msg.command,
             code: 0,
@@ -77,7 +77,7 @@ class Server {
             }; break;
         }
 
-        return respObj;
+        callback(respObj);
     }
 
     ConnectUserToLobby(user_uuid, lobby, socket){

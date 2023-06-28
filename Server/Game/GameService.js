@@ -173,7 +173,7 @@ class GameService {
         }
     }
 
-    PutPiece(data){
+    async PutPiece(data){
         if(!this.board.CheckIfEmptyCell(data.row, data.col)){
             return;
         }
@@ -200,7 +200,7 @@ class GameService {
             }
         });
 
-        this.board.WordRecognizer();
+        await this.board.WordRecognizer();
 
         return {
             hand_literals: player.GetHandLiterals(),
@@ -209,7 +209,7 @@ class GameService {
     }
 
 
-    TakePiece(data){
+    async TakePiece(data){
         if(this.board.CheckIfEmptyCell(data.row, data.col)){
             return;
         }
@@ -235,7 +235,7 @@ class GameService {
             }
         });
 
-        this.board.WordRecognizer();
+        await this.board.WordRecognizer();
 
         return {
             hand_literals: handLiterals,
@@ -281,7 +281,7 @@ class GameService {
         }
     }
 
-    HandleMessage(msg){
+    async HandleMessage(msg, callback){
         let respObj = {
             command: msg.command,
             code: 0,
@@ -295,7 +295,7 @@ class GameService {
                     break;
                 }
 
-                respObj.data = this.PutPiece(msg.data);
+                respObj.data = await this.PutPiece(msg.data);
             }; break;
 
             case "take-piece": {
@@ -304,7 +304,7 @@ class GameService {
                     break;
                 }
 
-                respObj.data = this.TakePiece(msg.data);
+                respObj.data = await this.TakePiece(msg.data);
             }; break;
 
             case "end-turn": {
@@ -337,7 +337,7 @@ class GameService {
             }; break;
         }
 
-        return respObj;
+        callback(respObj);
     }
 }
 

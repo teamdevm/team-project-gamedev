@@ -233,13 +233,8 @@ class Board {
      * @param {Cell[]} cells
      * @returns {?number}
      */
-    CalculateWord(word, cells){
-        const wordPromise = WordAPI.fetchData(word);
-
-        let accepted;
-        wordPromise.then((res) => {
-            accepted = res;
-        });
+    async CalculateWord(word, cells){
+        let accepted = await WordAPI.fetchData(word);
 
         if(!accepted && this.CheckIfWordExisted(word)){
             return null;
@@ -285,7 +280,7 @@ class Board {
      * Horizontal alingment recognizing
      * @param {Cell} rootCell
      */
-    HorizontalAlingmentWordBuilding(rootCell){
+    async HorizontalAlingmentWordBuilding(rootCell){
         let cells = [rootCell];
         let row = cells[0].row;
         let leftSide = cells[0].col + 1;
@@ -300,7 +295,7 @@ class Board {
         }
 
         let wordStr = this.BuildWord(cells);
-        let points = this.CalculateWord(wordStr);
+        let points = await this.CalculateWord(wordStr);
 
         if(points != null){
             this.wordsToCommit.push(new Word(wordStr, cells, points));
@@ -311,7 +306,7 @@ class Board {
      * Vertical alingment recognizing
      * @param {Cell} rootCell
      */
-    VerticalAlingmentBuilding(rootCell){
+    async VerticalAlingmentBuilding(rootCell){
         let cells = [rootCell];
         let col = cells[0].col;
         let downSide = cells[0].row + 1;
@@ -326,7 +321,7 @@ class Board {
         }
 
         let wordStr = this.BuildWord(cells);
-        let points = this.CalculateWord(wordStr);
+        let points = await this.CalculateWord(wordStr);
 
         if(points != null){
             this.wordsToCommit.push(new Word(wordStr, cells, points));
@@ -336,22 +331,22 @@ class Board {
     /**
      * Horizontal main alingment recognizing
      */
-    HorizontalWordBuilding(){
-        this.HorizontalAlingmentWordBuilding(this.currentCells[0]);
+    async HorizontalWordBuilding(){
+        await this.HorizontalAlingmentWordBuilding(this.currentCells[0]);
 
-        this.currentCells.forEach((element) => {
-            this.VerticalAlingmentBuilding(element);
+        this.currentCells.forEach(async (element) => {
+            await this.VerticalAlingmentBuilding(element);
         });
     }
 
     /**
      * Vertical main alingment recognizing
      */
-    VerticalWordBuilding(){
-        this.VerticalAlingmentBuilding(this.currentCells[0]);
+    async VerticalWordBuilding(){
+        await this.VerticalAlingmentBuilding(this.currentCells[0]);
 
-        this.currentCells.forEach((element) => {
-            this.HorizontalAlingmentWordBuilding(element);
+        this.currentCells.forEach(async (element) => {
+            await this.HorizontalAlingmentWordBuilding(element);
         });
     }
 
@@ -373,7 +368,7 @@ class Board {
      * Recognize all words with all putted pieces in the same turn
      * @returns 
      */
-    WordRecognizer(){
+    async WordRecognizer(){
         let linearity = {
             horizontal: false,
             vertical: false
@@ -384,9 +379,9 @@ class Board {
         }
 
         if(linearity.horizontal){
-            this.HorizontalWordBuilding();
+            await this.HorizontalWordBuilding();
         } else {
-            this.VerticalWordBuilding();
+            await this.VerticalWordBuilding();
         }
     }
 

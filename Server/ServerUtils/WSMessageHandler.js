@@ -3,6 +3,7 @@ module.exports = (socket, data, isBinary, handlerFunction) => {
     const dataObj = JSON.parse(jsonStr);
     dataObj.socket = socket;
 
-    let response = handlerFunction(dataObj);
-    socket.send(JSON.stringify(response));
+    handlerFunction(dataObj, (response) => {
+        socket.send(JSON.stringify(response));
+    });
 }
