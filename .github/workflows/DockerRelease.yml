@@ -45,7 +45,7 @@ jobs:
         working-directory: ./Server
         run: npm test
         
-  Godot_build_and_release:
+  Godot_build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -59,6 +59,11 @@ jobs:
           archive_output: false
           relative_export_path: ./Server/HTMLGame
       
+      
+  Release:
+    needs: [NodeJS_build_and_tests, Godot_build]
+    runs-on: ubuntu-latest
+    steps:
       - name: Zip Release
         # You may pin to the exact commit or the version.
         # uses: TheDoctor0/zip-release@a24011d8d445e4da5935a7e73c1f98e22a439464
@@ -77,6 +82,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
-          tag: 'Client/Server for Docker'
+          tag: DockerRelease
           artifacts: 'release.zip'
           allowUpdates: true
