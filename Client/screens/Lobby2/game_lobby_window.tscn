@@ -1,33 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://bxwpx7kgg0fsv"]
+[gd_scene load_steps=8 format=3 uid="uid://bxwpx7kgg0fsv"]
 
-[ext_resource type="Texture2D" uid="uid://ceo2ymuno0whr" path="res://screens/Lobby2/PlayersListBackground.png" id="2_k1xp0"]
-[ext_resource type="Texture2D" uid="uid://b1m6eascmt3uw" path="res://screens/Lobby2/playersListPanelGroup.png" id="3_7fuix"]
+[ext_resource type="Theme" uid="uid://bumkwxeykmpbo" path="res://assets/ui/themes/button_base_theme.tres" id="1_ck170"]
+[ext_resource type="Theme" uid="uid://dsrplku3p6dfi" path="res://assets/ui/themes/players_list_back_theme.tres" id="2_0jtbu"]
+[ext_resource type="Theme" uid="uid://c1aedyd58c1fu" path="res://assets/ui/themes/players_list_panel_theme.tres" id="3_qlljs"]
 [ext_resource type="Texture2D" uid="uid://bvyxetrp2iarc" path="res://screens/Lobby2/star.png" id="4_6ao2l"]
 [ext_resource type="Texture2D" uid="uid://bolxfn02iof3b" path="res://screens/Lobby2/backBtn.png" id="5_3c7cl"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctx17"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
-shadow_size = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jknka"]
-bg_color = Color(1, 1, 1, 0.282353)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gmlxx"]
-bg_color = Color(0.6, 0.6, 0.6, 0.117647)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o308k"]
-bg_color = Color(0.717647, 0.87451, 0.988235, 1)
-corner_radius_top_left = 120
-corner_radius_top_right = 120
-corner_radius_bottom_right = 120
-corner_radius_bottom_left = 120
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rr72i"]
-bg_color = Color(0.717647, 0.87451, 0.988235, 1)
+[ext_resource type="Theme" uid="uid://ospbp5int6he" path="res://assets/ui/themes/player_and_score_theme.tres" id="5_daud5"]
+[ext_resource type="Theme" uid="uid://dodh4ocddj82m" path="res://assets/ui/themes/blue_theme.tres" id="5_ohung"]
 
 [node name="GameLobbyWindow" type="Control"]
 layout_mode = 3
@@ -51,84 +30,51 @@ offset_bottom = 156.256
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.7, 0.7)
-theme_override_colors/font_color = Color(0.909804, 0.713726, 0.215686, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 96
-theme_override_styles/normal = SubResource("StyleBoxFlat_ctx17")
-text = "START"
+theme = ExtResource("1_ck170")
+text = "НАЧАТЬ"
 
-[node name="Container" type="Control" parent="."]
+[node name="Container" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
+offset_left = -201.0
+offset_right = -1.0
+offset_bottom = 200.0
 grow_horizontal = 0
+theme = ExtResource("2_0jtbu")
 
-[node name="PlayersList" type="TextureRect" parent="Container"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -354.0
-offset_bottom = 255.0
-grow_horizontal = 0
-texture = ExtResource("2_k1xp0")
+[node name="VBoxContainer" type="VBoxContainer" parent="Container"]
+layout_mode = 2
 
-[node name="playersLlistPanel" type="TextureRect" parent="Container"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -354.0
-offset_bottom = 63.0
-grow_horizontal = 0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture = ExtResource("3_7fuix")
+[node name="playersListPanel" type="LineEdit" parent="Container/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_qlljs")
+text = "ИГРОКИ"
+alignment = 1
 
-[node name="PlayerName" type="LineEdit" parent="Container"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -240.0
-offset_top = 80.0
-offset_right = -110.0
-offset_bottom = 133.0
-grow_horizontal = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_jknka")
-text = "player1
-"
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/VBoxContainer"]
+layout_mode = 2
 
-[node name="currentPlayer" type="TextureRect" parent="Container"]
-layout_mode = 0
-offset_left = -270.0
-offset_top = 80.0
-offset_right = -230.0
-offset_bottom = 120.0
+[node name="currentPlayer" type="TextureRect" parent="Container/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 texture = ExtResource("4_6ao2l")
 
-[node name="score" type="LineEdit" parent="Container"]
-layout_mode = 0
-offset_left = -50.0
-offset_top = 80.0
-offset_right = -8.0
-offset_bottom = 133.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_gmlxx")
+[node name="PlayerName" type="LineEdit" parent="Container/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5_daud5")
+text = "игрок1"
+
+[node name="score" type="LineEdit" parent="Container/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5_daud5")
 text = "25"
 
 [node name="backBtn" type="Button" parent="."]
 layout_mode = 1
 offset_right = 100.0
 offset_bottom = 84.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_o308k")
+theme = ExtResource("5_ohung")
 icon = ExtResource("5_3c7cl")
 
 [node name="RoomCode" type="LineEdit" parent="."]
@@ -136,11 +82,9 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 23.0
+offset_left = -176.0
+offset_right = 124.0
+offset_bottom = 67.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 64
-theme_override_styles/normal = SubResource("StyleBoxFlat_rr72i")
+theme = ExtResource("5_ohung")
 text = "112 225 505"

@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyds7ume6jrxk"]
+
+[ext_resource type="Theme" uid="uid://blkylgfr2pb70" path="res://assets/ui/themes/label_erudit_theme.tres" id="1_it14v"]
+[ext_resource type="Theme" uid="uid://dodh4ocddj82m" path="res://assets/ui/themes/blue_theme.tres" id="2_rxm21"]
+
+[node name="FinishGameWindow" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="gameover" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 250.0
+offset_right = 1092.0
+offset_bottom = 178.0
+grow_horizontal = 2
+scale = Vector2(0.8, 0.8)
+theme = ExtResource("1_it14v")
+text = "КОНЕЦ ИГРЫ"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 350.0
+offset_top = 150.0
+offset_right = 706.0
+offset_bottom = 217.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+
+[node name="PlayerName" type="LineEdit" parent="HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_rxm21")
+text = "игрок1"
+
+[node name="score" type="LineEdit" parent="HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_rxm21")
+text = "25"
