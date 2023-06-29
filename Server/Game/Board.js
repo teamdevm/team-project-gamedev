@@ -168,14 +168,14 @@ class Board {
 
     /**
      * Check if all pieces putted horizontal
-     * @param {{vertical: boolean, horizontal: boolean}} linearity 
+     * @param {{horizontal: boolean, vertical: boolean}} linearity 
      * @returns {boolean}
      */
     IsHorizontal(linearity){
-        let col = this.currentCells[0].col;
+        let row = this.currentCells[0].row;
 
         for(let i = 1; i < this.currentCells.length; i++){
-            if(this.currentCells[i].col != col){
+            if(this.currentCells[i].row != row){
                 return false;
             }
         }
@@ -184,7 +184,11 @@ class Board {
         
         for(let i = 0; i < this.currentCells.length - 1; i++){
             if(this.currentCells[i + 1].col - this.currentCells[i].col > 1){
-                return false;
+                for(let Bcol = this.currentCells[i].col + 1; Bcol < this.currentCells[i + 1].col; Bcol++){
+                    if(this.board[row][Bcol].piece == null){
+                        return false;
+                    }
+                }
             }
         }
 
@@ -194,14 +198,14 @@ class Board {
 
     /**
      * Check if all pieces putted vertical
-     * @param {{vertical: boolean, horizontal: boolean}} linearity 
+     * @param {{horizontal: boolean, vertical: boolean}} linearity 
      * @returns {boolean}
      */
     IsVertical(linearity){
-        let row = this.currentCells[0].row;
+        let col = this.currentCells[0].col;
 
         for(let i = 1; i < this.currentCells.length; i++){
-            if(this.currentCells[i].row != row){
+            if(this.currentCells[i].col != col){
                 return false;
             }
         }
@@ -210,7 +214,11 @@ class Board {
         
         for(let i = 0; i < this.currentCells.length - 1; i++){
             if(this.currentCells[i + 1].row - this.currentCells[i].row > 1){
-                return false;
+                for(let Brow = this.currentCells[i].row + 1; Brow < this.currentCells[i + 1].row; Brow++){
+                    if(this.board[Brow][col].piece == null){
+                        return false;
+                    }
+                }
             }
         }
 
@@ -244,7 +252,7 @@ class Board {
     async CalculateWord(word, cells){
         let accepted = await WordAPI.fetchData(word);
 
-        if(!(accepted && this.CheckIfWordExisted(word))){
+        if(!(accepted && !this.CheckIfWordExisted(word))){
             return null;
         }
 
@@ -400,6 +408,7 @@ class Board {
      * @param {Piece} piece Piece object to place
      */
     PutPieceOnBoard(row, col, piece){
+        this.wordsToCommit = [];
         this.board[row][col].piece = piece;
         this.currentCells.push(this.board[row][col]);
     }
@@ -411,6 +420,7 @@ class Board {
      * @returns {Piece}
      */
     TakePieceFromBoard(row, col){
+        this.wordsToCommit = [];
         let piece = this.board[row][col].piece;
         this.board[row][col].piece = null;
         this.currentCells.splice(this.currentCells.findIndex((item, idx, arr) => item.col == col && item.row == row));

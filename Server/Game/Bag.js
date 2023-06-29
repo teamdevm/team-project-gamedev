@@ -48,7 +48,7 @@ class Bag {
     TakePieces(num){
         let piecesToTake = [];
 
-        while(num > 0){
+        while(this.count > 0 && num > 0){
             let bagNum = Math.floor(Math.random() * this.pieces.length);
 
             piecesToTake.push(this.pieces[bagNum].piece);
@@ -58,6 +58,7 @@ class Bag {
                 this.pieces.splice(bagNum, 1);
             }
 
+            this.count--;
             num--;
         }
 
@@ -71,10 +72,20 @@ class Bag {
     PutPieces(pieces){
         pieces.forEach((element) => {
             let piece = this.pieces.find((item, index, arr) => {
-                return element.literal == item.literal;
+                return element.literal == item.piece.literal;
             });
 
-            piece.count++;
+            if(piece == undefined){
+                this.pieces.push({
+                    piece: element,
+                    count: 1
+                });
+
+                this.count++;
+            } else {
+                piece.count++;
+                this.count++;
+            }
         });
     }
 

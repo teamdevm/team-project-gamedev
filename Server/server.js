@@ -2,6 +2,7 @@ const ws = require('ws');
 const Lobby = require('./Lobbies/LobbyModel');
 const UserService = require('./Users/UserService');
 const RecieveHandler = require('./ServerUtils/WSMessageHandler');
+const { v4: uuidv4 } = require('uuid');
 
 class Server {
     /**
@@ -25,6 +26,8 @@ class Server {
             socket.onmessage = (event) => {
                 RecieveHandler(socket, event.data, this);
             };
+
+            socket.send(JSON.stringify({uuid: uuidv4()}));
         });
     }
 
