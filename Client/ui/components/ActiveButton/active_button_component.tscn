@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsd4syoa0d7sn"]
+
+[ext_resource type="Script" path="res://ui/components/ActiveButton/active_button_component.gd" id="1_i50ys"]
+
+[node name="ActiveButtonComponent" type="Node"]
+script = ExtResource("1_i50ys")

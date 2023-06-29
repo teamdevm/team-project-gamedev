@@ -2,20 +2,20 @@ extends Node
 
 var DEBUG:bool = OS.is_debug_build()
 
-var url:String = 'ws://26.120.131.9:3000'
+var url:String = 'ws://localhost:3000'
 
 var socket := WebSocketPeer.new()
 
 var Opened:bool = false
 var Connecting:bool = false
 var Connected:bool = false
+var Registered:bool = false
 var _defferedCommands:Array[String] = []
 
 var Username:String = ''
 var UUID:String = ''
 
 signal Command(command:String, data)
-
 
 func OpenConnection(username:String)->void:
 	Username = username
@@ -33,6 +33,9 @@ func SendCommand(command:String, data) -> void:
 	if not _ConnectionIsOpened():
 		_defferedCommands.append(jsonCommand)
 		return
+	if OS.is_debug_build():
+		print("Send command:")
+		print(jsonCommand)
 	socket.send_text(jsonCommand)
 
 func ReleaseDefferedCommands()->void:
@@ -59,7 +62,7 @@ func _process(delta):
 
 func _ConnectSocket()->void:
 	_defferedCommands.clear()
-	_ReadUUID()
+	#_ReadUUID()
 	socket.connect_to_url(url)
 
 func _GetPackets():
@@ -67,20 +70,32 @@ func _GetPackets():
 		var packet = socket.get_packet()
 		var packetString:String = packet.get_string_from_utf8()
 		var commandObject = JSON.parse_string(packetString)
-		_EmitCommand(commandObject['command'], commandObject['data'])
+		if commandObject.has('command'):
+			if OS.is_debug_build():
+				print("Got packet:")
+				print(commandObject)
+			_EmitCommand(commandObject['command'], commandObject['data'])
+		elif commandObject.has("uuid"):
+			UUID = commandObject["uuid"]
+			print("Got UUID:", UUID)
+			SendCommand('user-registration', {
+				'name':Username,
+				'uuid':UUID
+			})
 
 func _ConnectionJustOpened():
 	if _wasClosed:
 		_wasClosed = false
-		SendCommand('user-registration', {
-				'name':Username,
-				'uuid':UUID
-			})
-		ReleaseDefferedCommands()
+#		SendCommand('user-registration', {
+#				'name':Username,
+#				'uuid':UUID
+#			})
+		#ReleaseDefferedCommands()
 
 func _ConnectionJustClosed():
 	if Connected:
 		Connected = false
+		Registered = false
 		var code = socket.get_close_code()
 		var reason = socket.get_close_reason()
 		_EmitCommand('conn-closed', {'code':code, 'reason':reason})
@@ -88,6 +103,7 @@ func _ConnectionJustClosed():
 func _EmitCommand(command:String, data):
 	emit_signal('Command', command, data)
 	if OS.is_debug_build():
+		print("Emmit command:")
 		print(command)
 
 
