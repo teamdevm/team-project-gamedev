@@ -1,6 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://540ip4dmhmfb"]
+[gd_scene load_steps=8 format=3 uid="uid://540ip4dmhmfb"]
 
 [ext_resource type="Texture2D" uid="uid://75xht14s3gl7" path="res://screens/MainMenu2/Group 1.png" id="1_fk7vl"]
+[ext_resource type="Script" path="res://screens/MainMenu2/main_menu2.gd" id="1_hj6st"]
+[ext_resource type="PackedScene" uid="uid://dfng4pxwp35ix" path="res://ui/components/PropLine/prop_line_component.tscn" id="3_iqs3n"]
+[ext_resource type="PackedScene" uid="uid://dsd4syoa0d7sn" path="res://ui/components/ActiveButton/active_button_component.tscn" id="4_cj1nr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eyth7"]
 bg_color = Color(1, 0.945098, 0.462745, 0.72549)
@@ -32,6 +35,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_hj6st")
 
 [node name="eruditLabel" type="Label" parent="."]
 layout_mode = 1
@@ -79,7 +83,32 @@ scale = Vector2(0.7, 0.7)
 theme_override_colors/font_color = Color(0.160784, 0.670588, 0.956863, 0.494118)
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_eyth7")
-text = "enter your name"
+placeholder_text = "enter your name"
+
+[node name="PropLineComponent" parent="EnterYourNameLine" node_paths=PackedStringArray("MainScript") instance=ExtResource("3_iqs3n")]
+MainScript = NodePath("../..")
+Prop = "Username"
+
+[node name="EnterRoomCodeLine" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.48
+anchor_top = 0.297
+anchor_right = 0.48
+anchor_bottom = 0.297
+offset_left = -453.96
+offset_top = 315.544
+offset_right = 554.04
+offset_bottom = 423.544
+scale = Vector2(0.7, 0.7)
+theme_override_colors/font_color = Color(0.160784, 0.670588, 0.956863, 0.494118)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_eyth7")
+placeholder_text = "enter your name"
+
+[node name="PropLineComponent" parent="EnterRoomCodeLine" node_paths=PackedStringArray("MainScript") instance=ExtResource("3_iqs3n")]
+MainScript = NodePath("../..")
+Prop = "LobbyCode"
 
 [node name="newGameBtn" type="Button" parent="."]
 layout_mode = 1
@@ -101,6 +130,10 @@ theme_override_constants/outline_size = 10
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_ayfuv")
 text = "NEW GAME"
+
+[node name="ActiveButtonComponent" parent="newGameBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("4_cj1nr")]
+MainScript = NodePath("../..")
+Function = "CreateLobby"
 
 [node name="or" type="Label" parent="."]
 layout_mode = 1
@@ -125,10 +158,10 @@ anchor_left = 0.517
 anchor_top = 0.851
 anchor_right = 0.517
 anchor_bottom = 0.851
-offset_left = -79.584
-offset_top = -43.448
-offset_right = 238.416
-offset_bottom = 129.552
+offset_left = 258.416
+offset_top = -46.448
+offset_right = 576.416
+offset_bottom = 109.552
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
@@ -137,4 +170,8 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_4wavi")
-text = "ENTER CODE"
+text = "JOIN"
+
+[node name="ActiveButtonComponent" parent="enterCodeBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("4_cj1nr")]
+MainScript = NodePath("../..")
+Function = "JoinLobby"

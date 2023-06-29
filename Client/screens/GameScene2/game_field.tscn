@@ -1,22 +1,14 @@
-[gd_scene load_steps=19 format=3 uid="uid://bfyjdmspa3blt"]
+[gd_scene load_steps=10 format=3 uid="uid://bfyjdmspa3blt"]
 
-[ext_resource type="Texture2D" uid="uid://ceo2ymuno0whr" path="res://screens/Lobby2/PlayersListBackground.png" id="1_qilyy"]
+[ext_resource type="Script" path="res://screens/GameScene2/game_field.gd" id="1_oudhi"]
 [ext_resource type="Texture2D" uid="uid://b1m6eascmt3uw" path="res://screens/Lobby2/playersListPanelGroup.png" id="2_hwx7n"]
-[ext_resource type="Texture2D" uid="uid://bvyxetrp2iarc" path="res://screens/Lobby2/star.png" id="3_4nd22"]
 [ext_resource type="Texture2D" uid="uid://bolxfn02iof3b" path="res://screens/Lobby2/backBtn.png" id="4_cxkt8"]
 [ext_resource type="Texture2D" uid="uid://c8jmtu7fe487i" path="res://screens/GameScene2/lettersBack.png" id="5_hhjxn"]
 [ext_resource type="Texture2D" uid="uid://smruy3oy6njk" path="res://screens/GameScene2/LettersBagGroup.png" id="6_embrr"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vmvbc"]
-bg_color = Color(0.6, 0.6, 0.6, 0.0784314)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iaq35"]
-bg_color = Color(0.6, 0.6, 0.6, 0.0705882)
+[ext_resource type="PackedScene" uid="uid://bl84mnycnig08" path="res://ui/components/SelectablePiece/SelectablePiece.tscn" id="7_3wrrl"]
+[ext_resource type="PackedScene" uid="uid://cavqlqkq4cnqf" path="res://entities/board/board.tscn" id="8_0x3ys"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ka4xm"]
-bg_color = Color(0.717647, 0.87451, 0.988235, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n5mp5"]
 bg_color = Color(0.717647, 0.87451, 0.988235, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lm1mh"]
@@ -26,55 +18,6 @@ corner_radius_top_right = 90
 corner_radius_bottom_right = 90
 corner_radius_bottom_left = 90
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f2qcg"]
-bg_color = Color(0.462745, 0.196078, 0.729412, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_27qov"]
-bg_color = Color(0.462745, 0.196078, 0.729412, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqkpe"]
-bg_color = Color(0.462745, 0.196078, 0.729412, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3xvl"]
-bg_color = Color(0.462745, 0.196078, 0.729412, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6l7a2"]
-bg_color = Color(0.462745, 0.196078, 0.729412, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6iu8n"]
-bg_color = Color(0.462745, 0.196078, 0.729412, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bcsi6"]
-bg_color = Color(0.462745, 0.196078, 0.729412, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
 [node name="GameField" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -82,6 +25,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_oudhi")
+metadata/_edit_lock_ = true
 
 [node name="Container" type="Control" parent="."]
 layout_mode = 1
@@ -91,16 +36,6 @@ anchor_right = 1.0
 offset_left = -40.0
 offset_bottom = 40.0
 grow_horizontal = 0
-
-[node name="PlayersList" type="TextureRect" parent="Container"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -354.0
-offset_bottom = 255.0
-grow_horizontal = 0
-texture = ExtResource("1_qilyy")
 
 [node name="playersLlistPanel" type="TextureRect" parent="Container"]
 layout_mode = 1
@@ -114,61 +49,12 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_hwx7n")
 
-[node name="PlayerName" type="LineEdit" parent="Container"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -240.0
-offset_top = 80.0
-offset_right = -110.0
-offset_bottom = 133.0
-grow_horizontal = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_vmvbc")
-text = "player1
-"
-
-[node name="currentPlayer" type="TextureRect" parent="Container"]
-layout_mode = 0
-offset_left = -270.0
-offset_top = 80.0
-offset_right = -230.0
-offset_bottom = 120.0
-texture = ExtResource("3_4nd22")
-
-[node name="score" type="LineEdit" parent="Container"]
-layout_mode = 0
-offset_left = -50.0
-offset_top = 80.0
-offset_right = -8.0
-offset_bottom = 133.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_iaq35")
-text = "25"
-
 [node name="backBtn" type="Button" parent="."]
 layout_mode = 1
 offset_right = 100.0
 offset_bottom = 84.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_ka4xm")
 icon = ExtResource("4_cxkt8")
-
-[node name="RoomCode" type="LineEdit" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -183.5
-offset_right = 183.5
-offset_bottom = 91.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 64
-theme_override_styles/normal = SubResource("StyleBoxFlat_n5mp5")
-text = "112 225 505"
 
 [node name="lettersBack" type="TextureRect" parent="."]
 layout_mode = 1
@@ -199,128 +85,109 @@ scale = Vector2(0.7, 0.7)
 theme_override_styles/normal = SubResource("StyleBoxFlat_lm1mh")
 icon = ExtResource("6_embrr")
 
-[node name="letter" type="LineEdit" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -351.0
-offset_top = -108.0
-offset_right = -219.0
-offset_bottom = 12.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.8, 0.8)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_f2qcg")
+[node name="Board" parent="." instance=ExtResource("8_0x3ys")]
+position = Vector2(292, 8)
 
-[node name="letter2" type="LineEdit" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -236.0
-offset_top = -108.0
-offset_right = -104.0
-offset_bottom = 12.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.8, 0.8)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_27qov")
+[node name="Letter1" type="Button" parent="."]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 525.0
+offset_right = 324.0
+offset_bottom = 643.0
+theme_override_font_sizes/font_size = 80
+text = "А"
 
-[node name="letter3" type="LineEdit" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -120.0
-offset_top = -108.0
-offset_right = 12.0
-offset_bottom = 12.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.8, 0.8)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_uqkpe")
+[node name="SelectablePiece" parent="Letter1" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_3wrrl")]
+MainScript = NodePath("../..")
+SelectFunction = "SelectPiece"
+SelectedSignal = "PieceSelected"
 
-[node name="letter4" type="LineEdit" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -5.0
-offset_top = -108.0
-offset_right = 127.0
-offset_bottom = 12.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.8, 0.8)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_r3xvl")
+[node name="Letter2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 332.0
+offset_top = 526.0
+offset_right = 443.0
+offset_bottom = 644.0
+theme_override_font_sizes/font_size = 80
+text = "А"
 
-[node name="letter5" type="LineEdit" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 111.0
-offset_top = -108.0
-offset_right = 243.0
-offset_bottom = 12.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.8, 0.8)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_6l7a2")
+[node name="SelectablePiece" parent="Letter2" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_3wrrl")]
+MainScript = NodePath("../..")
+Index = 1
+SelectFunction = "SelectPiece"
+SelectedSignal = "PieceSelected"
 
-[node name="letter6" type="LineEdit" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 227.0
-offset_top = -108.0
-offset_right = 359.0
-offset_bottom = 12.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.8, 0.8)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_6iu8n")
+[node name="Letter3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 454.0
+offset_top = 525.0
+offset_right = 565.0
+offset_bottom = 643.0
+theme_override_font_sizes/font_size = 80
+text = "А"
 
-[node name="letter7" type="LineEdit" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 342.0
-offset_top = -108.0
-offset_right = 474.0
-offset_bottom = 12.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.8, 0.8)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_bcsi6")
+[node name="SelectablePiece" parent="Letter3" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_3wrrl")]
+MainScript = NodePath("../..")
+Index = 2
+SelectFunction = "SelectPiece"
+SelectedSignal = "PieceSelected"
+
+[node name="Letter4" type="Button" parent="."]
+layout_mode = 0
+offset_left = 573.0
+offset_top = 526.0
+offset_right = 684.0
+offset_bottom = 644.0
+theme_override_font_sizes/font_size = 80
+text = "А"
+
+[node name="SelectablePiece" parent="Letter4" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_3wrrl")]
+MainScript = NodePath("../..")
+Index = 3
+SelectFunction = "SelectPiece"
+SelectedSignal = "PieceSelected"
+
+[node name="Letter5" type="Button" parent="."]
+layout_mode = 0
+offset_left = 691.0
+offset_top = 527.0
+offset_right = 802.0
+offset_bottom = 645.0
+theme_override_font_sizes/font_size = 80
+text = "А"
+
+[node name="SelectablePiece" parent="Letter5" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_3wrrl")]
+MainScript = NodePath("../..")
+Index = 4
+SelectFunction = "SelectPiece"
+SelectedSignal = "PieceSelected"
+
+[node name="Letter6" type="Button" parent="."]
+layout_mode = 0
+offset_left = 810.0
+offset_top = 528.0
+offset_right = 921.0
+offset_bottom = 646.0
+theme_override_font_sizes/font_size = 80
+text = "А"
+
+[node name="SelectablePiece" parent="Letter6" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_3wrrl")]
+MainScript = NodePath("../..")
+Index = 5
+SelectFunction = "SelectPiece"
+SelectedSignal = "PieceSelected"
+
+[node name="Letter7" type="Button" parent="."]
+layout_mode = 0
+offset_left = 928.0
+offset_top = 527.0
+offset_right = 1039.0
+offset_bottom = 645.0
+theme_override_font_sizes/font_size = 80
+text = "А"
+
+[node name="SelectablePiece" parent="Letter7" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_3wrrl")]
+MainScript = NodePath("../..")
+Index = 6
+SelectFunction = "SelectPiece"
+SelectedSignal = "PieceSelected"

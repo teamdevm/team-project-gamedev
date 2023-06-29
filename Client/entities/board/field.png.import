@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6itv7ykvr5pb"
-path="res://.godot/imported/JoinByCodeGroup.png-49d7f3903d15f87821be2720d19fd1e1.ctex"
+uid="uid://4hc4m1xo7f5t"
+path="res://.godot/imported/field.png-55ee62f93a7107a06eb18d9ab7914046.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screens/MainMenu2/JoinByCodeGroup.png"
-dest_files=["res://.godot/imported/JoinByCodeGroup.png-49d7f3903d15f87821be2720d19fd1e1.ctex"]
+source_file="res://entities/board/field.png"
+dest_files=["res://.godot/imported/field.png-55ee62f93a7107a06eb18d9ab7914046.ctex"]
 
 [params]
 

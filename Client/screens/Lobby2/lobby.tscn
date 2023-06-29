@@ -1,0 +1,119 @@
+[gd_scene load_steps=10 format=3 uid="uid://bxwpx7kgg0fsv"]
+
+[ext_resource type="Script" path="res://screens/Lobby2/lobby.gd" id="1_me7uw"]
+[ext_resource type="PackedScene" uid="uid://dsd4syoa0d7sn" path="res://ui/components/ActiveButton/active_button_component.tscn" id="2_i15i8"]
+[ext_resource type="Texture2D" uid="uid://b1m6eascmt3uw" path="res://screens/Lobby2/playersListPanelGroup.png" id="3_1k24i"]
+[ext_resource type="Texture2D" uid="uid://bolxfn02iof3b" path="res://screens/Lobby2/backBtn.png" id="4_6jx1x"]
+[ext_resource type="PackedScene" uid="uid://1gljc5uwj186" path="res://ui/components/PropLineRead/PropLineRead.tscn" id="6_5ykop"]
+[ext_resource type="PackedScene" uid="uid://n8l58mspgo2x" path="res://ui/components/PlayersList/PlayersList.tscn" id="6_it81t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctx17"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o308k"]
+bg_color = Color(0.717647, 0.87451, 0.988235, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rr72i"]
+bg_color = Color(0.717647, 0.87451, 0.988235, 1)
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_me7uw")
+metadata/_edit_lock_ = true
+
+[node name="startBtn" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.478
+anchor_top = 0.531
+anchor_right = 0.478
+anchor_bottom = 0.531
+offset_left = -250.32
+offset_top = -84.744
+offset_right = 465.68
+offset_bottom = 156.256
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+theme_override_colors/font_color = Color(0.909804, 0.713726, 0.215686, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 96
+theme_override_styles/normal = SubResource("StyleBoxFlat_ctx17")
+text = "START"
+
+[node name="ActiveButtonComponent" parent="startBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("2_i15i8")]
+MainScript = NodePath("../..")
+Function = "StartGame"
+
+[node name="playersLlistPanel" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -354.0
+offset_bottom = 63.0
+grow_horizontal = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("3_1k24i")
+
+[node name="backBtn" type="Button" parent="."]
+layout_mode = 1
+offset_right = 100.0
+offset_bottom = 84.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_o308k")
+icon = ExtResource("4_6jx1x")
+
+[node name="ActiveButtonComponent" parent="backBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("2_i15i8")]
+MainScript = NodePath("../..")
+Function = "ExitLobby"
+
+[node name="RoomCode" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -446.0
+offset_right = 220.0
+offset_bottom = 88.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_rr72i")
+placeholder_text = "room code"
+alignment = 1
+editable = false
+flat = true
+
+[node name="RoomCodeLine" parent="RoomCode" node_paths=PackedStringArray("MainScript") instance=ExtResource("6_5ykop")]
+MainScript = NodePath("../..")
+Field = "UUID"
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 0
+offset_left = 806.0
+offset_top = 60.0
+offset_right = 1150.0
+offset_bottom = 268.0
+
+[node name="PlayersList" parent="ItemList" node_paths=PackedStringArray("MainScript") instance=ExtResource("6_it81t")]
+MainScript = NodePath("../..")
+AddPlayerSignal = "AddPlayer"
+RemovePlayerSignal = "RemovePlayer"
+List = "Users"
