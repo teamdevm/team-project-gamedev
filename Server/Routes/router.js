@@ -4,7 +4,7 @@ let router = new Router();
 
 const httpController = require('../HTTP_Server/httpServerController');
 
-router.use('/', Router.static(path.join(serverAppRoot + '/TestBuild')));
+router.use('/', Router.static(path.join(serverAppRoot + '/HTMLGame')));
 router.get('/', httpController.SiteInitialization);
 
 module.exports = router;
