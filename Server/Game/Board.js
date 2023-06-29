@@ -427,6 +427,16 @@ class Board {
         return piece;
     }
 
+    TakeAllPuttedPieces(){
+        let pieces = [];
+
+        for(let i = this.currentCells.length - 1; i > -1; i--){
+            pieces.push(this.TakePieceFromBoard(this.currentCells[i].row, this.currentCells[i].col));
+        }
+
+        return pieces;
+    }
+
     /**
      * Parse cell data from string line
      * @param {string} specialCellData String line which contains data

@@ -32,6 +32,7 @@ class UserService {
      * @param {string} uuid User uuid 
      */
     UnregisterFromSystem(uuid){
+        this.users[uuid].UnregisterFromServices();
         delete this.users[uuid];
     }
 

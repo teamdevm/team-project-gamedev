@@ -1,6 +1,7 @@
 const Player = require('./Player');
 const Board = require('./Board');
 const Bag = require('./Bag');
+const User = require('../Users/UserModel');
 const RecieveHandler = require('../ServerUtils/WSMessageHandler');
 
 class GameService {
@@ -68,6 +69,10 @@ class GameService {
         }
     }
 
+    /**
+     * 
+     * @param {User[]} users 
+     */
     InitializePlayers(users){
         this.players = [];
 
@@ -75,6 +80,7 @@ class GameService {
             let hand = this.bag.TakePieces(7);
             let player = new Player(users[i], hand);
             this.players.push(player);
+            users[i].LinkToGameService(this);
         }
         
         this.currentPlayerIndex = Math.floor(Math.random() * this.players.length);
@@ -176,7 +182,7 @@ class GameService {
 
     async PutPiece(data){
         if(!this.board.CheckIfEmptyCell(data.row, data.col)){
-            return;
+            throw "Cell is not empty";
         }
 
         let player = this.players.find((item, index, arr) => {
@@ -214,7 +220,7 @@ class GameService {
 
     async TakePiece(data){
         if(this.board.CheckIfEmptyCell(data.row, data.col)){
-            return;
+            throw "Cell is empty";
         }
 
         let player = this.players.find((item, index, arr) => {
@@ -273,15 +279,28 @@ class GameService {
         this.players.splice(playerIndex, 1);
 
         for(let i = 0; i < this.players.length; i++){
-            let discMsg = {
-                command: "plr-disc-from-game",
-                data: {
-                    disc_index: playerIndex,
-                    new_index: i
+            (async function(gameService){
+                let discMsg = {
+                    command: "plr-disc-from-game",
+                    data: {
+                        disc_index: playerIndex,
+                        new_index: i
+                    }
                 }
-            }
 
-            this.players[i].user.SendMessage(discMsg);
+                gameService.players[i].user.SendMessage(discMsg);
+            }(this))
+        }
+
+        if(playerIndex == this.currentPlayerIndex){
+            if(this.board.currentCells.length > 0){
+                let piecesFromBoard = this.board.TakeAllPuttedPieces();
+                this.bag.PutPieces(piecesFromBoard);
+            }
+            this.board.ClearTurnBuffers();
+
+            this.currentPlayerIndex--;            
+            this.NextTurn();
         }
     }
 
@@ -307,7 +326,11 @@ class GameService {
                     break;
                 }
 
-                respObj.data = await this.PutPiece(msg.data);
+                try{
+                    respObj.data = await this.PutPiece(msg.data);
+                } catch(e) {
+                    respObj.code = 1;
+                }
             }; break;
 
             case "take-piece": {
@@ -316,7 +339,11 @@ class GameService {
                     break;
                 }
 
-                respObj.data = await this.TakePiece(msg.data);
+                try{
+                    respObj.data = await this.TakePiece(msg.data);
+                } catch(e) {
+                    respObj.code = 1;
+                }
             }; break;
 
             case "end-turn": {

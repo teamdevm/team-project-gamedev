@@ -68,7 +68,6 @@ class Lobby {
     /**
      * Connect user to lobby and send connection message to all users, connected to lobby
      * @param {User} user User object
-     * @param {WebSocket} socket User's socket
      */
     ConnectUser(user){
         let msg = {
@@ -85,6 +84,7 @@ class Lobby {
 
         this.users.push(user);
         this.currentPlayers++;
+        user.LinkToLobby(this);
 
         user.socket.onmessage = (event) => {
             RecieveHandler(user.socket, event.data, this);
@@ -93,7 +93,7 @@ class Lobby {
 
     /**
      * Disconnect user from lobby and send message to all users in lobby
-     * @param {User} user 
+     * @param {User} user
      */
     DisconnectUser(user){
         let userIndex = this.users.findIndex((item, i, arr) => {
@@ -104,10 +104,6 @@ class Lobby {
 
         this.users.splice(userIndex, 1);
         this.currentPlayers--;
-
-        user.socket.onmessage = (event) => {
-            RecieveHandler(user.socket, event.data, this._srv);
-        };
 
         let msg = {
             command: "player-leave-lobby",
