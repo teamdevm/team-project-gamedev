@@ -77,6 +77,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
-          tag: Client/Server for Docker
+          tag: 'Client/Server for Docker'
           artifacts: 'release.zip'
           allowUpdates: true
