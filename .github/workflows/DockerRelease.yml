@@ -1,0 +1,81 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "ci/cd" ]
+  pull_request:
+    branches: [ "ci/cd" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  NodeJS_build_and_tests:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: './Server/package-lock.json'
+      - name: install jest
+        working-directory: ./Server
+        run: npm install jest --global
+      - name: ci
+        working-directory: ./Server
+        run: npm ci
+      - name: build
+        working-directory: ./Server
+        run: npm run build --if-present
+      - name: test
+        working-directory: ./Server
+        run: npm test
+        
+  Godot_build_and_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Godot Export
+        id: export
+        uses: firebelley/godot-export@v5.2.0
+        with: 
+          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.0.3/Godot_v4.0.3-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.0.3/Godot_v4.0.3-stable_export_templates.tpz
+          relative_project_path: ./Client
+          archive_output: false
+          build_directory: ./Server/HTMLGame
+      
+      - name: Zip Release
+        # You may pin to the exact commit or the version.
+        # uses: TheDoctor0/zip-release@a24011d8d445e4da5935a7e73c1f98e22a439464
+        uses: TheDoctor0/zip-release@0.7.1
+        with:
+          # Filename for archive
+          filename: 'release.zip'
+          # Base path for archive files
+          path: ./Server
+          # List of excluded files / directories
+          exclusions: '*.git* /*node_modules/* .editorconfig'
+      
+        # https://github.com/ncipollo/release-action
+      - name: create release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          tag: Client/Server for Docker
+          artifacts: 'release.zip'
+          allowUpdates: true
