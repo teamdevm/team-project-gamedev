@@ -48,6 +48,7 @@ jobs:
   Godot_build_and_release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Godot Export
         id: export
         uses: firebelley/godot-export@v5.2.0
