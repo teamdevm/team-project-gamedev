@@ -1,4 +1,6 @@
 const RecieveHandler = require('../ServerUtils/WSMessageHandler');
+const Lobby = require('../Lobbies/LobbyModel');
+const GameService = require('../Game/GameService');
 
 class User {
     /**
@@ -20,10 +22,16 @@ class User {
     socket;
 
     /**
-     * Lobby UUID where user right now
-     * @type {string}
+     * Lobby object where user right now
+     * @type {Lobby}
      */
-    currentLobby;
+    lobby;
+
+    /**
+     * GameService object where user right now
+     * @type {GameService}
+     */
+    game;
 
     /**
      * User constructor
@@ -35,16 +43,37 @@ class User {
         this.name = name;
         this.uuid = uuid;
         this.socket = socket;
-        this.currentLobby = null;
+        this.lobby = null;
+        this.game = null;
     }
 
     /**
-     * Set lobby UUID to this user
-     * @param {string} lobbyUUID 
+     * Set lobby object to this user
+     * @param {string} lobby 
      */
-    LinkToLobby(lobbyUUID){
-        this.currentLobby = lobbyUUID;
+    LinkToLobby(lobby){
+        this.lobby = lobby;
     }
+
+    /**
+     * Set game service object to this user
+     * @param {GameService} game 
+     */
+    LinkToGameService(game){
+        this.game = game;
+    }
+
+    UnregisterFromServices(){
+        if(this.lobby != null){
+            this.lobby.DisconnectUser(this);
+        }
+
+        if(this.game != null){
+            this.game.PlayerDisconnected({
+                user_uuid: this.uuid
+            });
+        }
+    } 
 
     /**
      * Create User object with main info

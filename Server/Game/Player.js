@@ -58,6 +58,15 @@ class Player {
     }
 
     /**
+     * Get piece data without taking from hand
+     * @param {number}
+     * @returns {Piece}
+     */
+    GetPieceDataFromHand(handPos){
+        return this.hand[handPos];
+    }
+
+    /**
      * 
      * @param {number[]} handPos 
      */

@@ -14,7 +14,7 @@ class HTTPController {
             );            
         }
 
-        res.sendFile(path.join(serverAppRoot + '/TestBuild/TestBuild.html'));
+        res.sendFile(path.join(serverAppRoot + '/HTMLGame/Erudit.html'));
     }
 }
 
