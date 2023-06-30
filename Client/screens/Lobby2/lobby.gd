@@ -68,6 +68,8 @@ func OpenGameField(hand_literals, index, bag_count, your_turn)->void:
 	gameField.UserIndex = index
 	gameField.bag_count = bag_count
 	gameField.your_turn = your_turn
+	for usr in Users:
+		usr["score"] = 0
 	gameField.Users = Users
 	get_tree().root.add_child(gameField)
 	get_tree().current_scene = gameField

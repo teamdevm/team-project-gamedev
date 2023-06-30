@@ -40,9 +40,9 @@ var letterTiles = {
 	"Ч": Vector2i (3, 4),
 	"Ш": Vector2i (4, 4),
 	"Щ": Vector2i (0, 5),
-	"Ь": Vector2i (1, 5),
+	"Ь": Vector2i (3, 5),
 	"Ы": Vector2i (2, 5),
-	"Ъ": Vector2i (3, 5),
+	"Ъ": Vector2i (1, 5),
 	"Э": Vector2i (4, 5),
 	"Ю": Vector2i (0, 6),
 	"Я": Vector2i (1, 6),
@@ -60,7 +60,7 @@ func setChips(coord:Vector2i, letter) -> String:
 		prevLetter = " "
 	return prevLetter
 
-func _input(event):
+func _input(_event):
 	var tls = get_child(1)
 	if Input.is_action_just_pressed("Click"):
 		var global_pos = get_global_mouse_position()-self.position

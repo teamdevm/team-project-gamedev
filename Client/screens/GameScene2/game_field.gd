@@ -2,7 +2,7 @@ extends Control
 
 var hand_literals:Array: set = SetLiterals
 var UserIndex:int
-var bag_count
+var bag_count:int : set = SetBagCount
 var your_turn:bool : set = SetYourTurn
 var Users
 
@@ -28,13 +28,16 @@ var LiteralsHistory:Array = []
 
 signal RefreshLiterals(new_literals)
 signal PieceSelected(indexes)
+signal BagCountChanged(count)
 signal TotalScoreChanged(new_total_score)
 signal TurnScoreChanged(new_turn_score)
 signal CanSwap(canswap)
 signal Swapping(val)
 signal TurnChanged(yourTurn)
 signal CanEndTurn(can)
+signal CanPassTurn(can)
 signal ChangePlayersList
+signal ExitDialog(vis)
 
 func SetLiterals(new_hand_literals:Array)->void:
 	hand_literals = new_hand_literals
@@ -50,14 +53,19 @@ func SetPiece(val)->void:
 	SelectedPieces.clear()
 	SelectedPieces.append(val)
 
+func SetBagCount(val:int)->void:
+	bag_count = val
+	emit_signal("BagCountChanged", val)
+
 func SetTotalScore(score:int)->void:
 	TotalScore = score
 	emit_signal("TotalScoreChanged", score)
 
 func SetTurnScore(score:int)->void:
 	TurnScore = score
-	emit_signal("TurnChange", score)
+	emit_signal("TurnScoreChanged", "+" + str(score) if score > 0 else "")
 	emit_signal("CanEndTurn", score > 0)
+	emit_signal("CanPassTurn", score == 0)
 
 func SetYourTurn(val:bool)->void:
 	your_turn = val
@@ -78,16 +86,21 @@ func RevertChange()->void:
 	var change = LiteralsHistory.pop_back() as LiteralHistoryUnit
 	board.setChips(change.Coord, change.L)
 
+func ClearChanges()->void:
+	for change in LiteralsHistory:
+		board.setChips(change.Coord, change.L)
+	LiteralsHistory.clear()
+
 func NotifyCanSwap()->void:
 	emit_signal("CanSwap", TurnCoords.size() == 0)
-
-
 
 func _ready()->void:
 	SocketWork.connect('Command', _onCommand)
 	board.connect("click_coord", OnClick)
 	emit_signal("RefreshLiterals", hand_literals)
 	emit_signal("TurnChanged", your_turn)
+	emit_signal("CanEndTurn", false)
+	emit_signal("CanPassTurn", true)
 
 func _onCommand(command:String, data, code:int)->void:
 	if command == "put-piece":
@@ -101,13 +114,13 @@ func _onCommand(command:String, data, code:int)->void:
 	elif  command == "swap-pieces":
 		OnSwap(data, code)
 	elif  command == "end-turn":
-		pass
+		OnEndTurn(data, code)
 	elif  command == "pass-turn":
-		pass
+		OnPassTurn(data, code)
 	elif  command == "next-turn":
 		OnNextTurn(data)
 	elif  command == "end-game":
-		pass
+		OnEndGame(data, code)
 
 
 func SelectPiece(index:int, letter:String)->void:
@@ -175,6 +188,15 @@ func PassTurn()->void:
 		'user_uuid':SocketWork.UUID
 	})
 
+func TryExit()->void:
+	emit_signal("ExitDialog", true)
+
+func CancelExit()->void:
+	emit_signal("ExitDialog", false)
+
+func ReallyExit()->void:
+	OpenMainMenu()
+
 func OnPutPiece(data, code)->void:
 	if code != 0:
 		RevertChange()
@@ -210,7 +232,49 @@ func OnSwap(data, code)->void:
 	var new_literals = data["hand_literals"]
 	hand_literals = new_literals
 
+func OnPassTurn(data, code:int)->void:
+	if code != 0:
+		return
+	if data.has("hand_literals"):
+		hand_literals = data["hand_literals"]
+
+func OnEndTurn(data, code:int)->void:
+	if code != 0:
+		return
+	hand_literals = data["hand_literals"]
+	TurnScore = 0
+
 func OnNextTurn(data)->void:
 	your_turn = data["your_turn"]
-	#var players_stats = data["players_stats"]
-	#TotalScore = players_stats["score"]
+	bag_count = data["bag_count"]
+	var players_stats = data["players_stats"]
+	for stat in players_stats:
+		var score = stat["score"]
+		var index = stat["index"]
+		Users[index]["score"] = score
+		if UserIndex == index:
+			TotalScore = score
+	emit_signal("ChangePlayersList")
+
+func OnEndGame(data, code)->void:
+	if code != 0:
+		return
+	var table = data["table"]
+	for usr in table:
+		var index = usr["index"]
+		Users[index]["score"] = usr["score"]
+	OpenEndgameTable()
+
+func OpenMainMenu()->void:
+	var mainMenu = load("res://screens/MainMenu/main_menu.tscn").instantiate()
+	get_tree().root.add_child(mainMenu)
+	get_tree().current_scene = mainMenu
+	queue_free()
+
+func OpenEndgameTable()->void:
+	var endwindow = load("res://screens/EndScene/EndTable.tscn").instantiate()
+	endwindow.Users = Users
+	endwindow.UserIndex = UserIndex
+	get_tree().root.add_child(endwindow)
+	get_tree().current_scene = endwindow
+	queue_free()

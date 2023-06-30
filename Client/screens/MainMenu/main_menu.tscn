@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://tvbv70lxeqoc"]
+[gd_scene load_steps=9 format=3 uid="uid://tvbv70lxeqoc"]
 
 [ext_resource type="Script" path="res://screens/MainMenu/main_menu2.gd" id="1_ivh42"]
 [ext_resource type="Texture2D" uid="uid://75xht14s3gl7" path="res://screens/MainMenu/Group 1.png" id="2_1yfer"]
@@ -8,7 +8,6 @@
 [ext_resource type="Theme" uid="uid://bumkwxeykmpbo" path="res://assets/ui/themes/button_base_theme.tres" id="6_ppkgh"]
 [ext_resource type="PackedScene" uid="uid://dsd4syoa0d7sn" path="res://ui/components/ActiveButton/active_button_component.tscn" id="7_io5t7"]
 [ext_resource type="Theme" uid="uid://bl53e4gf0esw2" path="res://assets/ui/themes/label_or_theme.tres" id="8_x1iff"]
-[ext_resource type="Theme" uid="uid://cpdruswh5uuyg" path="res://assets/ui/themes/join_by_code_button_theme.tres" id="9_qlcvq"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -117,7 +116,7 @@ Prop = "LobbyCode"
 [node name="enterCodeBtn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("9_qlcvq")
+theme = ExtResource("6_ppkgh")
 text = "присоединиться"
 
 [node name="ActiveButtonComponent" parent="MarginContainer/VBoxContainer/HBoxContainer/enterCodeBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_io5t7")]

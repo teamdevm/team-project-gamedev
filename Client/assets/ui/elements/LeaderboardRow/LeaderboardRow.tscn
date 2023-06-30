@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://nnrpvkeu6n5e"]
+
+[node name="LeaderboardRow" type="HBoxContainer"]
+offset_left = -17.0
+offset_right = 52.0
+offset_bottom = 14.0
+
+[node name="Control2" type="Control" parent="."]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="NameLabel" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "Player"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="ScoreLabel" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[u]000[/u]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
