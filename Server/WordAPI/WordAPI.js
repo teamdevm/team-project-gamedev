@@ -2,7 +2,7 @@ const http = require('http');
 
 class WordAPI {
 
-  async fetchData(word){
+  static async fetchData(word){
     return await this.checkNounLingvo(word) || await this.checkNounYandex(word) || await this.checkNounParaphaser(word) 
           || await this.checkNounWiktionary(word); 
   }
