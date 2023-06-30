@@ -73,7 +73,7 @@ class Lobby {
         let msg = {
             command: "player-enter-lobby",
             data: {
-                uuid: user.uuid,
+                index: this.users.length,
                 name: user.name
             }
         };
@@ -108,7 +108,7 @@ class Lobby {
         let msg = {
             command: "player-leave-lobby",
             data: {
-                uuid: user.uuid
+                index: userIndex
             }
         };
 

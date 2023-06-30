@@ -87,14 +87,20 @@ class GameService {
         this.currentPlayer = this.players[this.currentPlayerIndex].user.uuid;
     }
 
-    GetPlayersInfo(){
+    GetPlayersInfo(playerIndex = null){
         let playersInfo = [];
 
         for(let i = 0; i < this.players.length; i++){
-            playersInfo.push({
+            let playerInfo = {
                 index: i,
                 score: this.players[i].points
-            });
+            };
+
+            if(i == playerIndex){
+                playerInfo.his_score = true;
+            }
+
+            playersInfo.push(playerInfo);
         }
 
         return playersInfo;
@@ -146,7 +152,7 @@ class GameService {
                 command: "next-turn",
                 data: {
                     bag_count: this.bag.count,
-                    players_stats: this.GetPlayersInfo(),
+                    players_stats: this.GetPlayersInfo(i),
                     your_turn: false
                 }
             }

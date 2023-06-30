@@ -1,14 +1,14 @@
 const http = require('http');
+const axios = require('axios');
 
 class WordAPI {
 
   static async fetchData(word){
-    return await this.checkNounLingvo(word) || await this.checkNounYandex(word) || await this.checkNounParaphaser(word) 
-          || await this.checkNounWiktionary(word); 
+    return await this.checkNounYandex(word) || await this.checkNounLingvo(word) || await this.checkNounParaphaser(word);
   }
 
-  async checkNounYandex(word) {
-    const axios = require('axios');
+  static async checkNounYandex(word) {
+    console.log('Check Yandex');
 
     const API_KEY = 'dict.1.1.20230628T123745Z.91aea0b6dc5f3dc5.07743ddf36fb62b79b37508779f667b387d46dca';
     const BASE_URL = 'https://dictionary.yandex.net/api/v1/dicservice.json/lookup';
@@ -20,8 +20,6 @@ class WordAPI {
           text: word,
         },
       });
-
-      console.log(JSON.stringify(response.data));
 
       const def = response.data.def[0];
 
@@ -37,9 +35,7 @@ class WordAPI {
     }
   }
 
-  async getAuthTokenLingvo() {
-    const axios = require('axios');
-
+  static async getAuthTokenLingvo() {
     const URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate';
     const KEY = 'M2M0NDc0MmMtOWI0My00YzkzLWEzMjAtZjE3NjY4MmFjYzFkOjIyZGIxNmE5ZDA1MzQ4MjhiYjA3MjA1NzcxOTJmYzdl';
 
@@ -59,9 +55,9 @@ class WordAPI {
     }
   }
 
-  async checkNounLingvo(word) {
+  static async checkNounLingvo(word) {
+    console.log('Check lingvo');
 
-    const axios = require('axios');
     const token = await this.getAuthTokenLingvo();
 
     const URL_WORD_FORMS = 'https://developers.lingvolive.com/api/v1/WordForms';
@@ -85,8 +81,9 @@ class WordAPI {
     }
   }
 
-  async checkNounParaphaser(word) {
+  static async checkNounParaphaser(word) {
     try {
+        console.log('Check Paraphraser');
       const url = `http://paraphraser.ru/api?token=d6a965641880dd890cf5d9d1b821b96594dd0e1d&c=vector&query=${word}&top=1&lang=ru&format=json&forms=1&scores=0`;
   
       const data = await new Promise((resolve, reject) => {
@@ -121,8 +118,8 @@ class WordAPI {
     }
   }
 
-  async checkNounWiktionary(word) {
-    const axios = require('axios');
+  static async checkNounWiktionary(word) {
+    console.log('Check Wirtionary');
     try {
       const url = `https://ru.wiktionary.org/wiki/${encodeURIComponent(word)}`;
       const response = await axios.get(url);
