@@ -83,11 +83,20 @@ class Server {
         callback(respObj);
     }
 
+    /**
+     * 
+     * @param {string} user_uuid 
+     * @param {Lobby} lobby 
+     * @returns 
+     */
     ConnectUserToLobby(user_uuid, lobby){
         let user = UserService.FindUser(user_uuid)
-        lobby.ConnectUser(user);
+        let indexInLobby = lobby.ConnectUser(user);
 
-        return lobby.CreateLobbyObject();
+        let lobbyObject = lobby.CreateLobbyObject();
+        lobbyObject.user_index = indexInLobby;
+
+        return lobbyObject;
     }
 }
 

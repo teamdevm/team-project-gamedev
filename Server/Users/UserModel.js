@@ -82,10 +82,13 @@ class User {
      *      uuid: string
      * }} user object
      */
-    CreateUserObject(){
+    CreateUserObject(uuidFlag = true){
         let user = {
-            name: this.name,
-            uuid: this.uuid
+            name: this.name
+        }
+
+        if(uuidFlag){
+            user.uuid = this.uuid;
         }
 
         return user;
