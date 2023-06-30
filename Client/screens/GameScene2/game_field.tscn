@@ -1,7 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://bfyjdmspa3blt"]
+[gd_scene load_steps=14 format=3 uid="uid://bfyjdmspa3blt"]
 
 [ext_resource type="Script" path="res://screens/GameScene2/game_field.gd" id="1_oudhi"]
-[ext_resource type="Texture2D" uid="uid://b1m6eascmt3uw" path="res://screens/Lobby2/playersListPanelGroup.png" id="2_hwx7n"]
 [ext_resource type="Texture2D" uid="uid://bolxfn02iof3b" path="res://screens/Lobby2/backBtn.png" id="4_cxkt8"]
 [ext_resource type="Theme" uid="uid://74qfym4b4orr" path="res://assets/ui/themes/letters_background_panel.tres" id="6_b5di1"]
 [ext_resource type="Texture2D" uid="uid://smruy3oy6njk" path="res://screens/GameScene2/LettersBagGroup.png" id="6_embrr"]
@@ -33,28 +32,36 @@ grow_vertical = 2
 script = ExtResource("1_oudhi")
 metadata/_edit_lock_ = true
 
-[node name="Container" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
-grow_horizontal = 0
+[node name="Board" parent="." instance=ExtResource("8_0x3ys")]
+position = Vector2(386, 82)
 
-[node name="playersLlistPanel" type="TextureRect" parent="Container"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = -354.0
-offset_bottom = 63.0
-grow_horizontal = 0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture = ExtResource("2_hwx7n")
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_edit_lock_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
 
 [node name="backBtn" type="Button" parent="."]
+visible = false
 layout_mode = 1
 offset_right = 100.0
 offset_bottom = 84.0
@@ -73,9 +80,6 @@ grow_vertical = 0
 scale = Vector2(0.7, 0.7)
 theme_override_styles/normal = SubResource("StyleBoxFlat_lm1mh")
 icon = ExtResource("6_embrr")
-
-[node name="Board" parent="." instance=ExtResource("8_0x3ys")]
-position = Vector2(386, 82)
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
