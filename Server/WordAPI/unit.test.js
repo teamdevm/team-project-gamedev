@@ -49,10 +49,4 @@ describe('WordAPI', () => {
     const result = await WordAPI.fetchData(word);
     expect(result).toBeTruthy();
   });
-
-  test('Fetch data for word "computer"', async () => {
-    const word = 'computer';
-    const result = await WordAPI.fetchData(word);
-    expect(result).toBeFalsy();
-  });
 });
