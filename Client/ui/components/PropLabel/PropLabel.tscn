@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://v7t56bwv3fk2"]
+
+[ext_resource type="Script" path="res://ui/components/PropLabel/PropLabel.gd" id="1_quhsr"]
+
+[node name="PropLabel" type="Node"]
+script = ExtResource("1_quhsr")

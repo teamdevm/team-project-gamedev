@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://p4imk4fxmklv"]
+
+[ext_resource type="Script" path="res://ui/components/ButtonActiveWhen/ButtonActiveWhen.gd" id="1_gfpin"]
+
+[node name="ButtonActiveWhen" type="Node"]
+script = ExtResource("1_gfpin")

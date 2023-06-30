@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgo31fruiw86s"]
+
+[ext_resource type="Script" path="res://ui/components/ButtonCaller/ButtonCaller.gd" id="1_motvw"]
+
+[node name="ButtonCaller" type="Node"]
+script = ExtResource("1_motvw")

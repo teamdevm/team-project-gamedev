@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://v0ulw1syoyr1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_snjth"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r8qfd"]
+
+[resource]
+LineEdit/colors/font_outline_color = Color(0, 0, 0, 0.529412)
+LineEdit/constants/outline_size = 4
+LineEdit/font_sizes/font_size = 64
+LineEdit/styles/focus = SubResource("StyleBoxEmpty_snjth")
+LineEdit/styles/read_only = SubResource("StyleBoxEmpty_r8qfd")

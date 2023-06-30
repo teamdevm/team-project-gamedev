@@ -5,10 +5,10 @@ var LobbyCode:String
 var Action = 0
 
 func _ready()->void:
-	#SocketWork.CloseConnection()
+	SocketWork.CloseConnection()
 	SocketWork.connect('Command', _onCommand)
 
-func _onCommand(command:String, data)->void:
+func _onCommand(command:String, data, _code:int)->void:
 	if command == 'create-lobby':
 		OnLobbyCreated(data)
 	elif command == 'connect-to-lobby':
@@ -26,7 +26,7 @@ func JoinLobby() -> void:
 	SocketWork.OpenConnection(username)
 	Action = 2
 
-func OnUserRegistered(data)->void:
+func OnUserRegistered(_data)->void:
 	if Action == 1:
 		SocketWork.SendCommand('create-lobby', {
 			'uuid':SocketWork.UUID
@@ -42,19 +42,22 @@ func OnLobbyCreated(data)->void:
 	var lobby = data['lobby']
 	var lobby_uuid = lobby['uuid']
 	var users = lobby['users']
-	OpenLobbyScreen(lobby_uuid, users)
+	var userIndex = lobby['user_index']
+	OpenLobbyScreen(lobby_uuid, users, userIndex)
 
 func OnLobbyJoined(data)->void:
 	var lobby = data['lobby']
 	var lobby_uuid = lobby['uuid']
 	var users = lobby['users']
-	OpenLobbyScreen(lobby_uuid, users)
+	var userIndex = lobby['user_index']
+	OpenLobbyScreen(lobby_uuid, users, userIndex)
 
 
-func OpenLobbyScreen(lobby_uuid:String, users:Array)->void:
+func OpenLobbyScreen(lobby_uuid:String, users:Array, userIndex:int)->void:
 	var lobbyScene = load("res://screens/Lobby2/lobby.tscn").instantiate()
 	lobbyScene.UUID = lobby_uuid
 	lobbyScene.Users = users
+	lobbyScene.UserIndex = userIndex
 	get_tree().root.add_child(lobbyScene)
 	get_tree().current_scene = lobbyScene
 	queue_free()

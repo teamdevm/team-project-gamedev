@@ -1,4 +1,4 @@
-extends Node
+class_name SelectablePiece_Component extends Node
 
 @export var MainScript:Control
 @export var Index:int
@@ -16,9 +16,8 @@ func _ready():
 	MainScript.connect("PieceSelected", OnPieceSelected)
 	_pieace.connect("pressed", SelectThisPiece)
 
-func OnPieceSelected(index:int)->void:
-	_pieace.flat = index == Index
-	
+func OnPieceSelected(indexes)->void:
+	_pieace.flat = indexes.has(Index)
 
 func SelectThisPiece()->void:
-	MainScript.call(SelectFunction, Index)
+	MainScript.call(SelectFunction, Index, _pieace.text)
