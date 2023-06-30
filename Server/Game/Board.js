@@ -250,7 +250,7 @@ class Board {
      * @returns {?number}
      */
     async CalculateWord(word, cells){
-        if(cells.length < 1){
+        if(cells.length < 2){
             return null;
         }
 

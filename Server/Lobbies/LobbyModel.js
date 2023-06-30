@@ -105,6 +105,10 @@ class Lobby {
             return item.uuid == user.uuid;
         });
 
+        if(userIndex == -1){
+            return;
+        }
+
         this.users.splice(userIndex, 1);
         this.currentPlayers--;
 
@@ -155,7 +159,8 @@ class Lobby {
             case "disconnect-from-lobby": {
                 console.log("disconnect-from-lobby fired");
 
-                let user = UserService.FindUser(msg.data.user_uuid)
+                let user = UserService.FindUser(msg.data.user_uuid);
+                user.lobby = null;
 
                 this.DisconnectUser(user);
             }; break;
