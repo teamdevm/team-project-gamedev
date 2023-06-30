@@ -78,15 +78,22 @@ func _GetPackets():
 			if commandObject.has("code"):
 				code = commandObject["code"]
 			_EmitCommand(commandObject['command'], commandObject['data'], code)
+		elif commandObject.has("uuid"):
+			if OS.get_name() != "Web":
+				UUID = commandObject["uuid"]
+				SendCommand('user-registration', {
+					'name':Username,
+					'uuid':UUID
+				})
 
 func _ConnectionJustOpened():
 	if _wasClosed:
 		_wasClosed = false
-		SendCommand('user-registration', {
-				'name':Username,
-				'uuid':UUID
-			})
-		ReleaseDefferedCommands()
+		if OS.get_name() == "Web":
+			SendCommand('user-registration', {
+					'name':Username,
+					'uuid':UUID
+				})
 
 func _ConnectionJustClosed():
 	if Connected:
@@ -119,7 +126,14 @@ func ReadCookie(cookieName:String)->String:
 	return cookies.substr(start, end-start).split("=")[1]
 
 func _ReadUUID() -> void:
+	if OS.get_name() != "Web":
+		return
 	UUID = ReadCookie('uuid')
 
 func _ReadURL() -> void:
-	url = ReadCookie('addr').replace("%3A", ":").replace("%2F", "/")
+	if OS.get_name() == "Web":
+		url = ReadCookie('addr').replace("%3A", ":").replace("%2F", "/")
+		return
+	var config = ConfigFile.new()
+	var _err = config.load("./netcode.cfg")
+	url = config.get_value("socketwork", "url", "ws://localhost:3000")
