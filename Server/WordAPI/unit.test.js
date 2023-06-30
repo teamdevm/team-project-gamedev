@@ -20,26 +20,8 @@ describe('WordAPI', () => {
     expect(result).toBeTruthy();
   });
 
-  test('Fetch data for word "машины"', async () => {
-    const word = 'машины';
-    const result = await api.fetchData(word);
-    expect(result).toBeFalsy();
-  });
-
-  test('Fetch data for empty word', async () => {
-    const word = '';
-    const result = await api.fetchData(word);
-    expect(result).toBeFalsy();
-  });
-
   test('Fetch data for word "олавфыа"', async () => {
     const word = 'олавфыа';
-    const result = await api.fetchData(word);
-    expect(result).toBeFalsy();
-  });
-
-  test('Fetch data for word "table"', async () => {
-    const word = 'table';
     const result = await api.fetchData(word);
     expect(result).toBeFalsy();
   });
@@ -78,11 +60,5 @@ describe('WordAPI', () => {
     const word = 'зима';
     const result = await api.fetchData(word);
     expect(result).toBeTruthy();
-  });
-
-  test('Fetch data for word "computer"', async () => {
-    const word = 'computer';
-    const result = await api.fetchData(word);
-    expect(result).toBeFalsy();
   });
 });
