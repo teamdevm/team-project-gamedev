@@ -7,7 +7,7 @@ describe('WordAPI', () => {
   beforeAll(() => {
     api = new WordAPI();
   });
-
+  
   test('Fetch data for word "яблоко"', async () => {
     const word = 'яблоко';
     const result = await api.fetchData(word);
