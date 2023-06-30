@@ -46,23 +46,25 @@ var letterTiles = {
 	"Э": Vector2i (4, 5),
 	"Ю": Vector2i (0, 6),
 	"Я": Vector2i (1, 6),
-	"*": Vector2i (2, 6)
+	"*": Vector2i (2, 6),
+	" ": Vector2i (-1,-1)
 }
 
-func setChips(coord:Vector2i, letter):       #установка фишки по ее координатам 
-	var tls = get_child(1)
+func setChips(coord:Vector2i, letter) -> String:
+	var tls = get_child(1) as TileMap
 	var tileCoord = letterTiles[letter]
-	tls.set_cell(0, coord, 1, tileCoord)
+	var prevCellAtlas = tls.get_cell_atlas_coords(0, coord)
+	tls.set_cell(0, coord, 0, tileCoord)
+	var prevLetter = letterTiles.find_key(prevCellAtlas)
+	if prevLetter == null:
+		prevLetter = " "
+	return prevLetter
 
 func _input(event):
 	var tls = get_child(1)
 	if Input.is_action_just_pressed("Click"):
-		var coord = tls.local_to_map(event.position/0.2)
+		var global_pos = get_global_mouse_position()-self.position
+		var coord = tls.local_to_map(global_pos/0.292)
 		if (coord.x < field_size and coord.y < field_size):
 			click_coord.emit(coord)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 

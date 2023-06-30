@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://suj0axpk8u1d"]
+
+[ext_resource type="Script" path="res://ui/components/VisibleWhen/VisibleWhen.gd" id="1_fcp8h"]
+
+[node name="VisibleWhen" type="Node"]
+script = ExtResource("1_fcp8h")

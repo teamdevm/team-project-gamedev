@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8b7oc0cm764d"]
+
+[ext_resource type="Theme" uid="uid://dfy22qyx8ovex" path="res://assets/ui/themes/letter_theme.tres" id="1_26lqt"]
+
+[node name="Piece" type="Button"]
+custom_minimum_size = Vector2(75, 0)
+offset_left = -8.0
+offset_top = -10.0
+offset_right = 37.0
+offset_bottom = 44.0
+theme = ExtResource("1_26lqt")

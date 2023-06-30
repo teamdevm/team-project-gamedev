@@ -4,7 +4,7 @@ var DEBUG:bool = OS.is_debug_build()
 
 var url:String = 'ws://localhost:3000'
 
-var socket := WebSocketPeer.new()
+var socket:WebSocketPeer = WebSocketPeer.new()
 
 var Opened:bool = false
 var Connecting:bool = false
@@ -15,7 +15,7 @@ var _defferedCommands:Array[String] = []
 var Username:String = ''
 var UUID:String = ''
 
-signal Command(command:String, data)
+signal Command(command:String, data, code:int)
 
 func OpenConnection(username:String)->void:
 	Username = username
@@ -44,7 +44,7 @@ func ReleaseDefferedCommands()->void:
 
 var _wasClosed:bool = true
 
-func _process(delta):
+func _process(_delta):
 	if _ConnectionIsClosed():
 		_wasClosed = true
 		return
@@ -57,7 +57,6 @@ func _process(delta):
 	
 	elif _ConnectionIsClosed():
 		_ConnectionJustClosed()
-		_ConnectSocket()
 
 
 func _ConnectSocket()->void:
@@ -74,7 +73,10 @@ func _GetPackets():
 			if OS.is_debug_build():
 				print("Got packet:")
 				print(commandObject)
-			_EmitCommand(commandObject['command'], commandObject['data'])
+			var code = 0
+			if commandObject.has("code"):
+				code = commandObject["code"]
+			_EmitCommand(commandObject['command'], commandObject['data'], code)
 		elif commandObject.has("uuid"):
 			UUID = commandObject["uuid"]
 			print("Got UUID:", UUID)
@@ -98,10 +100,10 @@ func _ConnectionJustClosed():
 		Registered = false
 		var code = socket.get_close_code()
 		var reason = socket.get_close_reason()
-		_EmitCommand('conn-closed', {'code':code, 'reason':reason})
+		_EmitCommand('conn-closed', {'code':code, 'reason':reason}, 0)
 
-func _EmitCommand(command:String, data):
-	emit_signal('Command', command, data)
+func _EmitCommand(command:String, data, code:int=0):
+	emit_signal('Command', command, data, code)
 	if OS.is_debug_build():
 		print("Emmit command:")
 		print(command)
