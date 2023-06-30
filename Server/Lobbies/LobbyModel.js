@@ -68,12 +68,15 @@ class Lobby {
     /**
      * Connect user to lobby and send connection message to all users, connected to lobby
      * @param {User} user User object
+     * @returns {number}
      */
     ConnectUser(user){
+        let userIndex = this.users.length; 
+
         let msg = {
             command: "player-enter-lobby",
             data: {
-                uuid: user.uuid,
+                index: userIndex,
                 name: user.name
             }
         };
@@ -82,13 +85,15 @@ class Lobby {
             item.SendMessage(msg);
         });
 
-        this.users.push(user);
+        this.users[userIndex] = user;
         this.currentPlayers++;
         user.LinkToLobby(this);
 
         user.socket.onmessage = (event) => {
             RecieveHandler(user.socket, event.data, this);
         };
+
+        return userIndex;
     }
 
     /**
@@ -97,24 +102,27 @@ class Lobby {
      */
     DisconnectUser(user){
         let userIndex = this.users.findIndex((item, i, arr) => {
-            if(item.uuid == user.uuid){
-                return i;
-            }
+            return item.uuid == user.uuid;
         });
+
+        if(userIndex == -1){
+            return;
+        }
 
         this.users.splice(userIndex, 1);
         this.currentPlayers--;
 
-        let msg = {
-            command: "player-leave-lobby",
-            data: {
-                uuid: user.uuid
-            }
-        };
+        for(let i = 0; i < this.users.length; i++){
+            let msg = {
+                command: "player-leave-lobby",
+                data: {
+                    index: userIndex,
+                    new_index: i
+                }
+            };
 
-        this.users.forEach(async (item, i, arr) => {
-            item.SendMessage(msg);
-        });
+            this.users[i].SendMessage(msg);
+        }
     }
 
     /**
@@ -129,7 +137,9 @@ class Lobby {
         let usersList = [];
 
         for(let i = 0; i < this.users.length; i++){
-            usersList.push(this.users[i].CreateUserObject());
+            let userObject = this.users[i].CreateUserObject(false);
+            userObject.index = i;
+            usersList.push(userObject);
         }
 
         return {
@@ -149,7 +159,8 @@ class Lobby {
             case "disconnect-from-lobby": {
                 console.log("disconnect-from-lobby fired");
 
-                let user = UserService.FindUser(msg.data.user_uuid)
+                let user = UserService.FindUser(msg.data.user_uuid);
+                user.lobby = null;
 
                 this.DisconnectUser(user);
             }; break;

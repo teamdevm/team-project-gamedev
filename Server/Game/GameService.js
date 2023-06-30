@@ -87,14 +87,20 @@ class GameService {
         this.currentPlayer = this.players[this.currentPlayerIndex].user.uuid;
     }
 
-    GetPlayersInfo(){
+    GetPlayersInfo(playerIndex = null){
         let playersInfo = [];
 
         for(let i = 0; i < this.players.length; i++){
-            playersInfo.push({
+            let playerInfo = {
                 index: i,
                 score: this.players[i].points
-            });
+            };
+
+            if(i == playerIndex){
+                playerInfo.his_score = true;
+            }
+
+            playersInfo.push(playerInfo);
         }
 
         return playersInfo;
@@ -146,7 +152,7 @@ class GameService {
                 command: "next-turn",
                 data: {
                     bag_count: this.bag.count,
-                    players_stats: this.GetPlayersInfo(),
+                    players_stats: this.GetPlayersInfo(i),
                     your_turn: false
                 }
             }
@@ -217,6 +223,21 @@ class GameService {
         return respObj;
     }
 
+    async SendTakeMsg(row, col, user_uuid){
+        let takeMsg = {
+            command: "take-piece-by-plr",
+            data: {
+                row: row,
+                col: col
+            }
+        }
+
+        this.players.forEach((element) => {
+            if(element.user.uuid != user_uuid){
+                element.user.SendMessage(takeMsg);  
+            }
+        });
+    }
 
     async TakePiece(data){
         if(this.board.CheckIfEmptyCell(data.row, data.col)){
@@ -230,19 +251,7 @@ class GameService {
         let piece = this.board.TakePieceFromBoard(data.row, data.col);
         let handLiterals = player.GivePiecesToPlayer([piece]);
 
-        let takeMsg = {
-            command: "take-piece-by-plr",
-            data: {
-                row: data.row,
-                col: data.col
-            }
-        }
-
-        this.players.forEach((element) => {
-            if(element.user.uuid != data.user_uuid){
-                element.user.SendMessage(takeMsg);  
-            }
-        });
+        this.SendTakeMsg(data.row, data.col, data.user_uuid);
 
         await this.board.WordRecognizer();
 
@@ -295,7 +304,12 @@ class GameService {
         if(playerIndex == this.currentPlayerIndex){
             if(this.board.currentCells.length > 0){
                 let piecesFromBoard = this.board.TakeAllPuttedPieces();
-                this.bag.PutPieces(piecesFromBoard);
+                this.bag.PutPieces(piecesFromBoard.pieces);
+
+                let coords = piecesFromBoard.cellCoords;
+                coords.forEach((element) => {
+                    this.SendTakeMsg(element.row, element.col, "...");
+                });
             }
             this.board.ClearTurnBuffers();
 
@@ -321,6 +335,8 @@ class GameService {
 
         switch(msg.command){
             case "put-piece": {
+                console.log('put-piece fired');
+
                 if(msg.data.user_uuid != this.currentPlayer){
                     respObj.code = 1;
                     break;

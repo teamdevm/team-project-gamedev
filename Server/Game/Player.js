@@ -52,6 +52,11 @@ class Player {
      */
     GetPieceFromHand(handPos){
         let piece = this.hand[handPos];
+
+        if(piece == null){
+            return null;
+        }
+
         this.hand[handPos] = null;
         this.handCount--;
         return piece;
@@ -74,9 +79,12 @@ class Player {
         let pieces = [];
         
         handPos.forEach((element) => {
-            if(element != null){
-                pieces.push(this.GetPieceFromHand(element));
+            let piece = this.GetPieceFromHand(element)
+
+            if(piece != null){
+                pieces.push(piece);
             }
+            
         });
 
         return pieces;
