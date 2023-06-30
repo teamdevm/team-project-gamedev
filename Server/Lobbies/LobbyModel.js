@@ -102,9 +102,7 @@ class Lobby {
      */
     DisconnectUser(user){
         let userIndex = this.users.findIndex((item, i, arr) => {
-            if(item.uuid == user.uuid){
-                return true;
-            }
+            return item.uuid == user.uuid;
         });
 
         this.users.splice(userIndex, 1);
