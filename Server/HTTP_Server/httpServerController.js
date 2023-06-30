@@ -14,6 +14,13 @@ class HTTPController {
             );            
         }
 
+        res.cookie(
+            'addr',
+            process.env.SOCKET_ADDRESS + ":" + process.env.SOCKET_PORT, {
+                sameSite: 'Strict'
+            }
+        );
+
         res.sendFile(path.join(serverAppRoot + '/HTMLGame/Erudit.html'));
     }
 }

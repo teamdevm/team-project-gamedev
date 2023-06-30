@@ -323,7 +323,21 @@ class GameService {
             return item.user.uuid == data.user_uuid;
         });
 
+        if(this.board.currentCells.length > 0){
+            let piecesFromBoard = this.board.TakeAllPuttedPieces();
+            player.GivePiecesToPlayer(piecesFromBoard.pieces);
+
+            let coords = piecesFromBoard.cellCoords;
+            coords.forEach((element) => {
+                this.SendTakeMsg(element.row, element.col, "...");
+            });
+        }
+
         player.hold = true;
+
+        return {
+            hand_literals: player.GetHandLiterals()
+        };
     }
 
     async HandleMessage(msg, callback){
@@ -388,6 +402,7 @@ class GameService {
                     break;
                 }
 
+                respObj.data = this.PassTurn(msg.data);
                 this.NextTurn();
             }; break;
         }
