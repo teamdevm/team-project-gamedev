@@ -85,7 +85,7 @@ class Board {
 
         const data = fs.readFileSync(__dirname + '/classic_board.txt', "utf8");
 
-        let cellsInfo = data.split('\n');
+        let cellsInfo = data.split('\r\n');
 
         let boardInfo = cellsInfo[0].split(',');
         this.rows = parseInt(boardInfo[0]);
@@ -250,6 +250,10 @@ class Board {
      * @returns {?number}
      */
     async CalculateWord(word, cells){
+        if(cells.length < 1){
+            return null;
+        }
+
         let accepted = await WordAPI.fetchData(word);
 
         if(!(accepted && !this.CheckIfWordExisted(word))){
@@ -350,9 +354,9 @@ class Board {
     async HorizontalWordBuilding(){
         await this.HorizontalAlingmentWordBuilding(this.currentCells[0]);
 
-        this.currentCells.forEach(async (element) => {
-            await this.VerticalAlingmentBuilding(element);
-        });
+        for(let i = 0; i < this.currentCells.length; i++){
+            await this.VerticalAlingmentBuilding(this.currentCells[i]);
+        }
     }
 
     /**
@@ -361,9 +365,9 @@ class Board {
     async VerticalWordBuilding(){
         await this.VerticalAlingmentBuilding(this.currentCells[0]);
 
-        this.currentCells.forEach(async (element) => {
-            await this.HorizontalAlingmentWordBuilding(element);
-        });
+        for(let i = 0; i < this.currentCells.length; i++){
+            await this.HorizontalAlingmentWordBuilding(this.currentCells[i]);
+        }
     }
 
     /**
@@ -429,12 +433,20 @@ class Board {
 
     TakeAllPuttedPieces(){
         let pieces = [];
+        let cellCoords = [];
 
         for(let i = this.currentCells.length - 1; i > -1; i--){
+            cellCoords.push({
+                row: this.currentCells[i].row,
+                col: this.currentCells[i].col
+            });
             pieces.push(this.TakePieceFromBoard(this.currentCells[i].row, this.currentCells[i].col));
         }
 
-        return pieces;
+        return {
+            pieces: pieces,
+            cellCoords: cellCoords
+        };
     }
 
     /**
