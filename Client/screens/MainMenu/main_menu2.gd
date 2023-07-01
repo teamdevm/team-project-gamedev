@@ -8,11 +8,11 @@ func _ready()->void:
 	SocketWork.CloseConnection()
 	SocketWork.connect('Command', _onCommand)
 
-func _onCommand(command:String, data, _code:int)->void:
+func _onCommand(command:String, data, code:int)->void:
 	if command == 'create-lobby':
 		OnLobbyCreated(data)
 	elif command == 'connect-to-lobby':
-		OnLobbyJoined(data)
+		OnLobbyJoined(data, code)
 	elif command == 'user-registration':
 		OnUserRegistered(data)
 
@@ -45,7 +45,10 @@ func OnLobbyCreated(data)->void:
 	var userIndex = lobby['user_index']
 	OpenLobbyScreen(lobby_uuid, users, userIndex)
 
-func OnLobbyJoined(data)->void:
+func OnLobbyJoined(data, code)->void:
+	if code != 0:
+		SocketWork.CloseConnection()
+		return
 	var lobby = data['lobby']
 	var lobby_uuid = lobby['uuid']
 	var users = lobby['users']

@@ -10,6 +10,8 @@ func _ready():
 	for i in range(0, field_size):
 		for j in range(0, field_size):
 				tls.set_cell(0, Vector2i (i, j), 1, field_tile)
+	get_tree().get_root().connect("size_changed", _resize)
+	_resize()
 
 # словарь
 # тут должны быть координаты тайлов с соответствкующими буквами 
@@ -64,7 +66,12 @@ func _input(_event):
 	var tls = get_child(1)
 	if Input.is_action_just_pressed("Click"):
 		var global_pos = get_global_mouse_position()-self.position
-		var coord = tls.local_to_map(global_pos/0.292)
+		var coord = tls.local_to_map(global_pos/self.scale)
 		if (coord.x < field_size and coord.y < field_size):
 			click_coord.emit(coord)
 
+func _resize():
+	var new_scale = 0.240 * get_viewport_rect().size.y / 666
+	self.scale.x = new_scale
+	self.scale.y = new_scale
+	self.position = get_viewport_rect().size / 2 - Vector2(750, 880) * self.scale

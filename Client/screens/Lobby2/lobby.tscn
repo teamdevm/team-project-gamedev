@@ -113,29 +113,32 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
 
-[node name="PlayerVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox"]
+[node name="PlayersVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayerVBox"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayersVBox"]
 layout_mode = 2
 theme = ExtResource("5_ulfft")
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayerVBox/PanelContainer"]
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayersVBox/PanelContainer"]
 layout_mode = 2
 text = "Игроки"
 horizontal_alignment = 1
 
-[node name="ItemList" type="ItemList" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayerVBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayersVBox"]
 layout_mode = 2
 size_flags_vertical = 3
-focus_mode = 0
 
-[node name="PlayersList" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayerVBox/ItemList" node_paths=PackedStringArray("MainScript") instance=ExtResource("6_it81t")]
-MainScript = NodePath("../../../../../..")
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayersVBox/PanelContainer2"]
+layout_mode = 2
+
+[node name="PlayersList" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayersVBox/PanelContainer2/VBoxContainer" node_paths=PackedStringArray("MainScript") instance=ExtResource("6_it81t")]
+MainScript = NodePath("../../../../../../..")
 ListChangedSignal = "ChangePlayersList"
 List = "Users"
+SelfIndex = "UserIndex"
 
 [node name="ChatVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox"]
 visible = false

@@ -4,7 +4,7 @@ var hand_literals:Array: set = SetLiterals
 var UserIndex:int
 var bag_count:int : set = SetBagCount
 var your_turn:bool : set = SetYourTurn
-var Users
+var Users:Array
 
 class LiteralHistoryUnit:
 	var Coord:Vector2i
@@ -121,6 +121,8 @@ func _onCommand(command:String, data, code:int)->void:
 		OnNextTurn(data)
 	elif  command == "end-game":
 		OnEndGame(data, code)
+	elif command == "plr-disc-from-game":
+		OnSomePlayerDisconnected(data)
 
 
 func SelectPiece(index:int, letter:String)->void:
@@ -251,9 +253,25 @@ func OnNextTurn(data)->void:
 	for stat in players_stats:
 		var score = stat["score"]
 		var index = stat["index"]
-		Users[index]["score"] = score
+		for usr in Users:
+			if usr["index"] == index:
+				usr["score"] = score
+				break
 		if UserIndex == index:
 			TotalScore = score
+	emit_signal("ChangePlayersList")
+
+func OnSomePlayerDisconnected(data)->void:
+	UserIndex = data["new_index"]
+	var disc_index = data["disc_index"]
+	var d = -1
+	for i in range(Users.size()):
+		if Users[i]["index"] == disc_index:
+			d = i
+		elif Users[i]["index"] > disc_index:
+			Users[i]["index"] -= 1
+	if d != -d:
+		Users.remove_at(d)
 	emit_signal("ChangePlayersList")
 
 func OnEndGame(data, code)->void:
