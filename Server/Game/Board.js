@@ -85,7 +85,13 @@ class Board {
 
         const data = fs.readFileSync(__dirname + '/classic_board.txt', "utf8");
 
-        let cellsInfo = data.split('\r\n');
+        let cellsInfo;
+
+        if(data.indexOf('\r\n') != -1){
+            cellsInfo = data.split('\r\n');
+        } else {
+            cellsInfo = data.split('\n');
+        }
 
         let boardInfo = cellsInfo[0].split(',');
         this.rows = parseInt(boardInfo[0]);
