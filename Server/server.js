@@ -16,9 +16,9 @@ class Server {
      */
     lobbies;
 
-    constructor(port){
+    constructor(socketHttpsServer){
         this.lobbies = {};        
-        this.srv = new ws.Server({ port: port });
+        this.srv = new ws.Server({ server: socketHttpsServer });
 
         this.srv.on('connection', socket => {
             console.log("New connection established");
@@ -29,6 +29,14 @@ class Server {
 
             socket.send(JSON.stringify({uuid: uuidv4()}));
         });
+    }
+
+    /**
+     * 
+     * @param {string} lobbyUUID 
+     */
+    DestroyLobby(lobbyUUID){
+        delete this.lobbies[lobbyUUID];
     }
 
     HandleMessage(msg, callback){

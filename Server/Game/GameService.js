@@ -37,8 +37,11 @@ class GameService {
 
     _srvMainHandler;
 
-    constructor(users, srvMainHandler){
+    lobbyUUID;
+
+    constructor(users, srvMainHandler, lobbyUUID){
         this._srvMainHandler = srvMainHandler;
+        this.lobbyUUID = lobbyUUID;
 
         this.bag = new Bag("RU");
         this.board = new Board();
@@ -137,6 +140,8 @@ class GameService {
 
             element.user.SendMessage(endMsg);
         });
+
+        this._srvMainHandler.DestroyLobby(this.lobbyUUID);
     }
 
     async NextTurn(){
@@ -315,6 +320,10 @@ class GameService {
 
             this.currentPlayerIndex--;            
             this.NextTurn();
+        }
+
+        if(this.players.length == 0){
+            this._srvMainHandler.DestroyLobby(this.lobbyUUID);
         }
     }
 
