@@ -40,12 +40,23 @@ theme = ExtResource("2_txyqm")
 text = "Игра окончена"
 horizontal_alignment = 1
 
-[node name="Leaderboard" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="InGameLeaderboard" parent="MarginContainer/VBoxContainer/Leaderboard" node_paths=PackedStringArray("MainScript") instance=ExtResource("3_g4cpb")]
-MainScript = NodePath("../../../..")
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 10
+
+[node name="Leaderboard" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InGameLeaderboard" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Leaderboard" node_paths=PackedStringArray("MainScript") instance=ExtResource("3_g4cpb")]
+MainScript = NodePath("../../../../../..")
 ListChangedSignal = "RefreshLeaderboard"
 List = "Users"
 SelfIndex = "UserIndex"

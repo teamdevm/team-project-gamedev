@@ -278,9 +278,12 @@ func OnEndGame(data, code)->void:
 	if code != 0:
 		return
 	var table = data["table"]
-	for usr in table:
-		var index = usr["index"]
-		Users[index]["score"] = usr["score"]
+	for row in table:
+		var index = row["index"]
+		for usr in Users:
+			if usr["index"] == index:
+				usr["score"] = row["score"]
+				break
 	OpenEndgameTable()
 
 func OpenMainMenu()->void:
