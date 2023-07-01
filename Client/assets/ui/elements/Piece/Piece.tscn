@@ -4,8 +4,16 @@
 
 [node name="Piece" type="Button"]
 custom_minimum_size = Vector2(75, 0)
-offset_left = -8.0
-offset_top = -10.0
-offset_right = 37.0
-offset_bottom = 44.0
+offset_left = -37.0
+offset_top = -45.0
+offset_right = 38.0
+offset_bottom = 45.0
 theme = ExtResource("1_26lqt")
+metadata/_edit_lock_ = true
+
+[node name="ScoreLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_right = 52.0
+offset_bottom = 26.0
+text = "0"

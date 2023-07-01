@@ -28,6 +28,7 @@ func RefreshPieces(hand_literals)->void:
 			continue
 		var piece = load("res://assets/ui/elements/Piece/Piece.tscn").instantiate() as Button
 		piece.text = literal
+		piece.get_node("ScoreLabel").text = str(ChipsScores.Scores[literal])
 		var piece_component = load("res://ui/components/SelectablePiece/SelectablePiece.tscn").instantiate() as SelectablePiece_Component
 		piece_component.MainScript = MainScript
 		piece_component.Index = index

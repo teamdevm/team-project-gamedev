@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://v0ulw1syoyr1" path="res://assets/ui/themes/CodeLine.tres" id="4_bbsuy"]
 [ext_resource type="Theme" uid="uid://bl53e4gf0esw2" path="res://assets/ui/themes/label_or_theme.tres" id="4_xrbm7"]
 [ext_resource type="Theme" uid="uid://c1aedyd58c1fu" path="res://assets/ui/themes/players_list_panel_theme.tres" id="5_ulfft"]
+[ext_resource type="Theme" uid="uid://bumkwxeykmpbo" path="res://assets/ui/themes/button_base_theme.tres" id="6_4o4dg"]
 [ext_resource type="PackedScene" uid="uid://1gljc5uwj186" path="res://ui/components/PropLineRead/PropLineRead.tscn" id="6_5ykop"]
 [ext_resource type="PackedScene" uid="uid://n8l58mspgo2x" path="res://ui/components/PlayersList/PlayersList.tscn" id="6_it81t"]
 
@@ -16,14 +17,6 @@ corner_radius_top_left = 120
 corner_radius_top_right = 120
 corner_radius_bottom_right = 120
 corner_radius_bottom_left = 120
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctx17"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
-shadow_size = 10
 
 [node name="Lobby" type="Control"]
 layout_mode = 3
@@ -91,11 +84,7 @@ size_flags_vertical = 3
 [node name="startBtn" type="Button" parent="MarginContainer/HBoxContainer/PlayZoneVBox/CenterContainer"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.909804, 0.713726, 0.215686, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 96
-theme_override_styles/normal = SubResource("StyleBoxFlat_ctx17")
+theme = ExtResource("6_4o4dg")
 text = "START"
 
 [node name="ActiveButtonComponent" parent="MarginContainer/HBoxContainer/PlayZoneVBox/CenterContainer/startBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("2_i15i8")]
@@ -141,6 +130,7 @@ horizontal_alignment = 1
 [node name="ItemList" type="ItemList" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayerVBox"]
 layout_mode = 2
 size_flags_vertical = 3
+focus_mode = 0
 
 [node name="PlayersList" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayerVBox/ItemList" node_paths=PackedStringArray("MainScript") instance=ExtResource("6_it81t")]
 MainScript = NodePath("../../../../../..")

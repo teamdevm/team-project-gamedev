@@ -2,7 +2,7 @@ extends Node
 
 var DEBUG:bool = OS.is_debug_build()
 
-var url:String = 'ws://localhost:3000'
+var url:String = ""
 
 var socket:WebSocketPeer = WebSocketPeer.new()
 
@@ -61,7 +61,8 @@ func _process(_delta):
 
 func _ConnectSocket()->void:
 	_defferedCommands.clear()
-	#_ReadUUID()
+	_ReadUUID()
+	_ReadURL()
 	socket.connect_to_url(url)
 
 func _GetPackets():
@@ -78,21 +79,21 @@ func _GetPackets():
 				code = commandObject["code"]
 			_EmitCommand(commandObject['command'], commandObject['data'], code)
 		elif commandObject.has("uuid"):
-			UUID = commandObject["uuid"]
-			print("Got UUID:", UUID)
-			SendCommand('user-registration', {
-				'name':Username,
-				'uuid':UUID
-			})
+			if OS.get_name() != "Web":
+				UUID = commandObject["uuid"]
+				SendCommand('user-registration', {
+					'name':Username,
+					'uuid':UUID
+				})
 
 func _ConnectionJustOpened():
 	if _wasClosed:
 		_wasClosed = false
-#		SendCommand('user-registration', {
-#				'name':Username,
-#				'uuid':UUID
-#			})
-		#ReleaseDefferedCommands()
+		if OS.get_name() == "Web":
+			SendCommand('user-registration', {
+					'name':Username,
+					'uuid':UUID
+				})
 
 func _ConnectionJustClosed():
 	if Connected:
@@ -116,9 +117,23 @@ func _ConnectionIsOpened() -> bool:
 func _ConnectionIsClosed() -> bool:
 	return socket.get_ready_state() == WebSocketPeer.STATE_CLOSED
 
-func _ReadUUID() -> void:
-	var cookies = JavaScriptBridge.eval('document.cookie;')
-	var start = cookies.find('uuid=')
+func ReadCookie(cookieName:String)->String:
+	var cookies = JavaScriptBridge.eval('document.cookie;') as String
+	var start = cookies.find(cookieName+'=')
 	var end = cookies.find(';', start)
-	UUID = cookies.substr(start, end-start).split('=')[1]
+	if start != -1 and end == -1:
+		end = cookies.length()
+	return cookies.substr(start, end-start).split("=")[1]
 
+func _ReadUUID() -> void:
+	if OS.get_name() != "Web":
+		return
+	UUID = ReadCookie('uuid')
+
+func _ReadURL() -> void:
+	if OS.get_name() == "Web":
+		url = ReadCookie('addr').replace("%3A", ":").replace("%2F", "/")
+		return
+	var config = ConfigFile.new()
+	var _err = config.load("./netcode.cfg")
+	url = config.get_value("socketwork", "url", "ws://localhost:3000")

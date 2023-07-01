@@ -14,4 +14,4 @@ func _ready():
 	MainScript.connect(NotifySignal, _textChanged)
 
 func _textChanged(new_text)->void:
-	label.text = new_text
+	label.text = str(new_text)
