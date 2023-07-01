@@ -23,45 +23,48 @@ var letterTiles = {
 	"Ж": Vector2i (1, 1),
 	"З": Vector2i (2, 1),
 	"И": Vector2i (3, 1),
-	"Й": Vector2i (2, 6),
-	"К": Vector2i (4, 1),
-	"Л": Vector2i (0, 2),
-	"М": Vector2i (1, 2),
-	"Н": Vector2i (2, 2),
-	"О": Vector2i (3, 2),
-	"П": Vector2i (4, 2),
-	"Р": Vector2i (0, 3),
-	"С": Vector2i (1, 3),
-	"Т": Vector2i (2, 3),
-	"У": Vector2i (3, 3),
-	"Ф": Vector2i (4, 3),
-	"Х": Vector2i (0, 4),
-	"Ц": Vector2i (1, 4),
-	"Ч": Vector2i (2, 4),
-	"Ш": Vector2i (3, 4),
-	"Щ": Vector2i (4, 4),
-	"Ь": Vector2i (0, 5),
-	"Ы": Vector2i (1, 5),
-	"Ъ": Vector2i (2, 5),
-	"Э": Vector2i (3, 5),
-	"Ю": Vector2i (4, 5),
-	"Я": Vector2i (0, 6)
+	"Й": Vector2i (4, 1),
+	"К": Vector2i (0, 2),
+	"Л": Vector2i (1, 2),
+	"М": Vector2i (2, 2),
+	"Н": Vector2i (3, 2),
+	"О": Vector2i (4, 2),
+	"П": Vector2i (0, 3),
+	"Р": Vector2i (1, 3),
+	"С": Vector2i (2, 3),
+	"Т": Vector2i (3, 3),
+	"У": Vector2i (4, 3),
+	"Ф": Vector2i (0, 4),
+	"Х": Vector2i (1, 4),
+	"Ц": Vector2i (2, 4),
+	"Ч": Vector2i (3, 4),
+	"Ш": Vector2i (4, 4),
+	"Щ": Vector2i (0, 5),
+	"Ь": Vector2i (1, 5),
+	"Ы": Vector2i (2, 5),
+	"Ъ": Vector2i (3, 5),
+	"Э": Vector2i (4, 5),
+	"Ю": Vector2i (0, 6),
+	"Я": Vector2i (1, 6),
+	"*": Vector2i (2, 6),
+	" ": Vector2i (-1,-1)
 }
 
-func setChips(coord:Vector2i, letter):       #установка фишки по ее координатам 
-	var tls = get_child(1)
+func setChips(coord:Vector2i, letter) -> String:
+	var tls = get_child(1) as TileMap
 	var tileCoord = letterTiles[letter]
-	tls.set_cell(0, coord, 1, tileCoord)
+	var prevCellAtlas = tls.get_cell_atlas_coords(0, coord)
+	tls.set_cell(0, coord, 0, tileCoord)
+	var prevLetter = letterTiles.find_key(prevCellAtlas)
+	if prevLetter == null:
+		prevLetter = " "
+	return prevLetter
 
 func _input(event):
 	var tls = get_child(1)
 	if Input.is_action_just_pressed("Click"):
-		var coord = tls.local_to_map(event.position/0.2)
+		var global_pos = get_global_mouse_position()-self.position
+		var coord = tls.local_to_map(global_pos/0.292)
 		if (coord.x < field_size and coord.y < field_size):
 			click_coord.emit(coord)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
