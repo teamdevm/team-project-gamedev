@@ -1,0 +1,13 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://dodh4ocddj82m"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0dbrp"]
+bg_color = Color(0.717647, 0.87451, 0.988235, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_57cgh"]
+bg_color = Color(0.717647, 0.87451, 0.988235, 1)
+
+[resource]
+Button/styles/normal = SubResource("StyleBoxFlat_0dbrp")
+LineEdit/colors/font_color = Color(1, 1, 1, 1)
+LineEdit/font_sizes/font_size = 48
+LineEdit/styles/normal = SubResource("StyleBoxFlat_57cgh")

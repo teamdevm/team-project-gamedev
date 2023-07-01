@@ -1,0 +1,127 @@
+[gd_scene load_steps=9 format=3 uid="uid://tvbv70lxeqoc"]
+
+[ext_resource type="Script" path="res://screens/MainMenu/main_menu2.gd" id="1_ivh42"]
+[ext_resource type="Texture2D" uid="uid://75xht14s3gl7" path="res://screens/MainMenu/Group 1.png" id="2_1yfer"]
+[ext_resource type="Theme" uid="uid://blkylgfr2pb70" path="res://assets/ui/themes/label_erudit_theme.tres" id="3_uoq4n"]
+[ext_resource type="Theme" uid="uid://boltgxd15535h" path="res://assets/ui/themes/enter_line_theme.tres" id="4_pm7v2"]
+[ext_resource type="PackedScene" uid="uid://dfng4pxwp35ix" path="res://ui/components/PropLine/prop_line_component.tscn" id="5_kn1os"]
+[ext_resource type="Theme" uid="uid://bumkwxeykmpbo" path="res://assets/ui/themes/button_base_theme.tres" id="6_ppkgh"]
+[ext_resource type="PackedScene" uid="uid://dsd4syoa0d7sn" path="res://ui/components/ActiveButton/active_button_component.tscn" id="7_io5t7"]
+[ext_resource type="Theme" uid="uid://bl53e4gf0esw2" path="res://assets/ui/themes/label_or_theme.tres" id="8_x1iff"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ivh42")
+metadata/_edit_lock_ = true
+
+[node name="bacground" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_1yfer")
+expand_mode = 2
+stretch_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="eruditLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_uoq4n")
+text = "ЭРУДИТ"
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="EnterYourNameLine" type="LineEdit" parent="MarginContainer/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(500, 15)
+layout_mode = 2
+size_flags_vertical = 0
+size_flags_stretch_ratio = 20.0
+theme = ExtResource("4_pm7v2")
+placeholder_text = "введите свое имя"
+alignment = 1
+max_length = 500
+caret_blink = true
+
+[node name="PropLineComponent" parent="MarginContainer/VBoxContainer/CenterContainer/EnterYourNameLine" node_paths=PackedStringArray("MainScript") instance=ExtResource("5_kn1os")]
+MainScript = NodePath("../../../../..")
+Prop = "Username"
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="newGameBtn" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("6_ppkgh")
+text = "НОВАЯ ИГРА"
+
+[node name="ActiveButtonComponent" parent="MarginContainer/VBoxContainer/newGameBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_io5t7")]
+MainScript = NodePath("../../../..")
+Function = "CreateLobby"
+
+[node name="or" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(10, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("8_x1iff")
+text = "ИЛИ"
+
+[node name="CenterContainer2" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterContainer2"]
+custom_minimum_size = Vector2(900, 0)
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="EnterRoomCodeLine" type="LineEdit" parent="MarginContainer/VBoxContainer/CenterContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_pm7v2")
+placeholder_text = "введите код комнаты"
+alignment = 1
+caret_blink = true
+
+[node name="PropLineComponent" parent="MarginContainer/VBoxContainer/CenterContainer2/HBoxContainer/EnterRoomCodeLine" node_paths=PackedStringArray("MainScript") instance=ExtResource("5_kn1os")]
+MainScript = NodePath("../../../../../..")
+Prop = "LobbyCode"
+
+[node name="enterCodeBtn" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_ppkgh")
+text = "присоединиться"
+
+[node name="ActiveButtonComponent" parent="MarginContainer/VBoxContainer/CenterContainer2/HBoxContainer/enterCodeBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_io5t7")]
+MainScript = NodePath("../../../../../..")
+Function = "JoinLobby"

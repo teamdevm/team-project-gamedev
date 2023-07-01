@@ -1,0 +1,15 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://boltgxd15535h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ocau5"]
+bg_color = Color(1, 0.945098, 0.462745, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[resource]
+LineEdit/colors/caret_color = Color(0.160784, 0.678431, 0.956863, 0.788235)
+LineEdit/colors/font_color = Color(0.160784, 0.670588, 0.956863, 0.72549)
+LineEdit/colors/font_placeholder_color = Color(0.160784, 0.670588, 0.956863, 0.466667)
+LineEdit/font_sizes/font_size = 36
+LineEdit/styles/normal = SubResource("StyleBoxFlat_ocau5")

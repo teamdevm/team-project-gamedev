@@ -1,0 +1,163 @@
+[gd_scene load_steps=12 format=3 uid="uid://bxwpx7kgg0fsv"]
+
+[ext_resource type="Script" path="res://screens/Lobby2/lobby.gd" id="1_me7uw"]
+[ext_resource type="PackedScene" uid="uid://dsd4syoa0d7sn" path="res://ui/components/ActiveButton/active_button_component.tscn" id="2_i15i8"]
+[ext_resource type="PackedScene" uid="uid://suj0axpk8u1d" path="res://ui/components/VisibleWhen/VisibleWhen.tscn" id="3_mao8g"]
+[ext_resource type="Texture2D" uid="uid://bolxfn02iof3b" path="res://screens/Lobby2/backBtn.png" id="4_6jx1x"]
+[ext_resource type="Theme" uid="uid://v0ulw1syoyr1" path="res://assets/ui/themes/CodeLine.tres" id="4_bbsuy"]
+[ext_resource type="Theme" uid="uid://bl53e4gf0esw2" path="res://assets/ui/themes/label_or_theme.tres" id="4_xrbm7"]
+[ext_resource type="Theme" uid="uid://c1aedyd58c1fu" path="res://assets/ui/themes/players_list_panel_theme.tres" id="5_ulfft"]
+[ext_resource type="Theme" uid="uid://bumkwxeykmpbo" path="res://assets/ui/themes/button_base_theme.tres" id="6_4o4dg"]
+[ext_resource type="PackedScene" uid="uid://1gljc5uwj186" path="res://ui/components/PropLineRead/PropLineRead.tscn" id="6_5ykop"]
+[ext_resource type="PackedScene" uid="uid://n8l58mspgo2x" path="res://ui/components/PlayersList/PlayersList.tscn" id="6_it81t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o308k"]
+bg_color = Color(0.717647, 0.87451, 0.988235, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_me7uw")
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+metadata/_edit_lock_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="PlayZoneVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+metadata/_edit_lock_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PlayZoneVBox"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="backBtn" type="Button" parent="MarginContainer/HBoxContainer/PlayZoneVBox/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_o308k")
+icon = ExtResource("4_6jx1x")
+
+[node name="ActiveButtonComponent" parent="MarginContainer/HBoxContainer/PlayZoneVBox/HBoxContainer/backBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("2_i15i8")]
+MainScript = NodePath("../../../../../..")
+Function = "ExitLobby"
+
+[node name="RoomCode" type="LineEdit" parent="MarginContainer/HBoxContainer/PlayZoneVBox/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_bbsuy")
+placeholder_text = "room code"
+alignment = 1
+editable = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+
+[node name="RoomCodeLine" parent="MarginContainer/HBoxContainer/PlayZoneVBox/HBoxContainer/RoomCode" node_paths=PackedStringArray("MainScript") instance=ExtResource("6_5ykop")]
+MainScript = NodePath("../../../../../..")
+Field = "UUID"
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer/PlayZoneVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="startBtn" type="Button" parent="MarginContainer/HBoxContainer/PlayZoneVBox/CenterContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme = ExtResource("6_4o4dg")
+text = "START"
+
+[node name="ActiveButtonComponent" parent="MarginContainer/HBoxContainer/PlayZoneVBox/CenterContainer/startBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("2_i15i8")]
+MainScript = NodePath("../../../../../..")
+Function = "StartGame"
+
+[node name="VisibleWhen" parent="MarginContainer/HBoxContainer/PlayZoneVBox/CenterContainer/startBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("3_mao8g")]
+MainScript = NodePath("../../../../../..")
+Notify = "HostStatusChanged"
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayZoneVBox/CenterContainer"]
+layout_mode = 2
+theme = ExtResource("4_xrbm7")
+text = "ОЖИДАНИЕ
+ХОСТА"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="VisibleWhen" parent="MarginContainer/HBoxContainer/PlayZoneVBox/CenterContainer/Label" node_paths=PackedStringArray("MainScript") instance=ExtResource("3_mao8g")]
+MainScript = NodePath("../../../../../..")
+Notify = "HostStatusChanged"
+Invert = true
+
+[node name="SocizalZoneVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.35
+
+[node name="PlayersVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayersVBox"]
+layout_mode = 2
+theme = ExtResource("5_ulfft")
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayersVBox/PanelContainer"]
+layout_mode = 2
+text = "Игроки"
+horizontal_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayersVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayersVBox/PanelContainer2"]
+layout_mode = 2
+
+[node name="PlayersList" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/PlayersVBox/PanelContainer2/VBoxContainer" node_paths=PackedStringArray("MainScript") instance=ExtResource("6_it81t")]
+MainScript = NodePath("../../../../../../..")
+ListChangedSignal = "ChangePlayersList"
+List = "Users"
+SelfIndex = "UserIndex"
+
+[node name="ChatVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/ChatVBox"]
+layout_mode = 2
+theme = ExtResource("5_ulfft")
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/ChatVBox/PanelContainer"]
+layout_mode = 2
+text = "Чат"
+horizontal_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/ChatVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/SocizalZoneVBox/ChatVBox"]
+layout_mode = 2

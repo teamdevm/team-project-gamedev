@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfng4pxwp35ix"]
+
+[ext_resource type="Script" path="res://ui/components/PropLine/PropLine.gd" id="1_cl7rk"]
+
+[node name="PropLineComponent" type="Node"]
+script = ExtResource("1_cl7rk")

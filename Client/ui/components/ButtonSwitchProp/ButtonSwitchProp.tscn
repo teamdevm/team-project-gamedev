@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwlwkv6mot36x"]
+
+[ext_resource type="Script" path="res://ui/components/ButtonSwitchProp/ButtonSwitchProp.gd" id="1_tf2sd"]
+
+[node name="ButtonSwitchProp" type="Node"]
+script = ExtResource("1_tf2sd")

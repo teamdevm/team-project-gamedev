@@ -1,0 +1,417 @@
+[gd_scene load_steps=20 format=3 uid="uid://bfyjdmspa3blt"]
+
+[ext_resource type="Script" path="res://screens/GameScene2/game_field.gd" id="1_oudhi"]
+[ext_resource type="Texture2D" uid="uid://bolxfn02iof3b" path="res://screens/Lobby2/backBtn.png" id="4_cxkt8"]
+[ext_resource type="Theme" uid="uid://74qfym4b4orr" path="res://assets/ui/themes/letters_background_panel.tres" id="6_b5di1"]
+[ext_resource type="Texture2D" uid="uid://smruy3oy6njk" path="res://screens/GameScene2/LettersBagGroup.png" id="6_embrr"]
+[ext_resource type="Theme" uid="uid://b5kv5siqoylbs" path="res://assets/ui/themes/yell_black_theme.tres" id="6_usv54"]
+[ext_resource type="PackedScene" uid="uid://dsfwt6m8v8nya" path="res://ui/components/Hand/Hand.tscn" id="7_awhss"]
+[ext_resource type="PackedScene" uid="uid://cavqlqkq4cnqf" path="res://entities/board/board.tscn" id="8_0x3ys"]
+[ext_resource type="PackedScene" uid="uid://v7t56bwv3fk2" path="res://ui/components/PropLabel/PropLabel.tscn" id="8_d4p3r"]
+[ext_resource type="PackedScene" uid="uid://suj0axpk8u1d" path="res://ui/components/VisibleWhen/VisibleWhen.tscn" id="8_p8fil"]
+[ext_resource type="Theme" uid="uid://dg2jm6y6poj65" path="res://assets/ui/themes/ChipsCountLabel.tres" id="9_yg1vg"]
+[ext_resource type="PackedScene" uid="uid://p4imk4fxmklv" path="res://ui/components/ButtonActiveWhen/ButtonActiveWhen.tscn" id="9_ykyoe"]
+[ext_resource type="PackedScene" uid="uid://cwlwkv6mot36x" path="res://ui/components/ButtonSwitchProp/ButtonSwitchProp.tscn" id="10_vih4x"]
+[ext_resource type="Theme" uid="uid://c1aedyd58c1fu" path="res://assets/ui/themes/players_list_panel_theme.tres" id="11_iqc8x"]
+[ext_resource type="PackedScene" uid="uid://bgo31fruiw86s" path="res://ui/components/ButtonCaller/ButtonCaller.tscn" id="12_7d4qr"]
+[ext_resource type="PackedScene" uid="uid://b4145c11xltpe" path="res://ui/components/InGameLeaderboard/InGameLeaderboard.tscn" id="12_dw0u5"]
+[ext_resource type="Theme" uid="uid://bumkwxeykmpbo" path="res://assets/ui/themes/button_base_theme.tres" id="15_rr0ej"]
+[ext_resource type="Theme" uid="uid://bl53e4gf0esw2" path="res://assets/ui/themes/label_or_theme.tres" id="16_j3t3o"]
+[ext_resource type="Theme" uid="uid://v5qcpwrqb0sx" path="res://assets/ui/themes/DialogTheme.tres" id="16_w6sif"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ka4xm"]
+bg_color = Color(0.717647, 0.87451, 0.988235, 1)
+
+[node name="GameField" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oudhi")
+metadata/_edit_lock_ = true
+
+[node name="Board" parent="." instance=ExtResource("8_0x3ys")]
+position = Vector2(348, 78.9999)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_edit_lock_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+metadata/_edit_lock_ = true
+
+[node name="GameStatsVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="backBtn" type="Button" parent="MarginContainer/HBoxContainer/GameStatsVBox"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ka4xm")
+icon = ExtResource("4_cxkt8")
+
+[node name="ButtonCaller" parent="MarginContainer/HBoxContainer/GameStatsVBox/backBtn" node_paths=PackedStringArray("MainScript") instance=ExtResource("12_7d4qr")]
+MainScript = NodePath("../../../../..")
+Function = "TryExit"
+
+[node name="Control2" type="Control" parent="MarginContainer/HBoxContainer/GameStatsVBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="ScorePanel" type="PanelContainer" parent="MarginContainer/HBoxContainer/GameStatsVBox"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/GameStatsVBox/ScorePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/GameStatsVBox/ScorePanel/MarginContainer"]
+layout_mode = 2
+
+[node name="ScoreTitle" type="Label" parent="MarginContainer/HBoxContainer/GameStatsVBox/ScorePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "SCORE"
+
+[node name="TotalScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/GameStatsVBox/ScorePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="PropLabel" parent="MarginContainer/HBoxContainer/GameStatsVBox/ScorePanel/MarginContainer/VBoxContainer/TotalScoreLabel" node_paths=PackedStringArray("MainScript") instance=ExtResource("8_d4p3r")]
+MainScript = NodePath("../../../../../../../..")
+NotifySignal = "TotalScoreChanged"
+
+[node name="TurnScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/GameStatsVBox/ScorePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PropLabel" parent="MarginContainer/HBoxContainer/GameStatsVBox/ScorePanel/MarginContainer/VBoxContainer/TurnScoreLabel" node_paths=PackedStringArray("MainScript") instance=ExtResource("8_d4p3r")]
+MainScript = NodePath("../../../../../../../..")
+NotifySignal = "TurnScoreChanged"
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/GameStatsVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_lock_ = true
+
+[node name="SwapButton" type="Button" parent="MarginContainer/HBoxContainer/GameStatsVBox"]
+layout_mode = 2
+theme = ExtResource("6_usv54")
+text = "  Поменять фишки  "
+
+[node name="VisibleWhen" parent="MarginContainer/HBoxContainer/GameStatsVBox/SwapButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("8_p8fil")]
+MainScript = NodePath("../../../../..")
+Notify = "TurnChanged"
+
+[node name="ButtonActiveWhen" parent="MarginContainer/HBoxContainer/GameStatsVBox/SwapButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("9_ykyoe")]
+MainScript = NodePath("../../../../..")
+Notify = "CanSwap"
+
+[node name="ButtonSwitchProp" parent="MarginContainer/HBoxContainer/GameStatsVBox/SwapButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("10_vih4x")]
+MainScript = NodePath("../../../../..")
+Prop = "MultiSelect"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/GameStatsVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/GameStatsVBox/MarginContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+texture = ExtResource("6_embrr")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/GameStatsVBox/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("9_yg1vg")
+text = "128"
+horizontal_alignment = 1
+
+[node name="PropLabel" parent="MarginContainer/HBoxContainer/GameStatsVBox/MarginContainer/Label" node_paths=PackedStringArray("MainScript") instance=ExtResource("8_d4p3r")]
+MainScript = NodePath("../../../../../..")
+NotifySignal = "BagCountChanged"
+
+[node name="PlayZoneVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayZoneVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Ваш ход!"
+horizontal_alignment = 1
+
+[node name="VisibleWhen" parent="MarginContainer/HBoxContainer/PlayZoneVBox/Label" node_paths=PackedStringArray("MainScript") instance=ExtResource("8_p8fil")]
+MainScript = NodePath("../../../../..")
+Notify = "TurnChanged"
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/PlayZoneVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_lock_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PlayZoneVBox"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme = ExtResource("6_b5di1")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PlayZoneVBox/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PiecesContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PlayZoneVBox/PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Hand" parent="MarginContainer/HBoxContainer/PlayZoneVBox/PanelContainer/MarginContainer/PiecesContainer" node_paths=PackedStringArray("MainScript") instance=ExtResource("7_awhss")]
+MainScript = NodePath("../../../../../../..")
+RefreshSignal = "RefreshLiterals"
+SelectFunction = "SelectPiece"
+SelectedSignal = "PieceSelected"
+
+[node name="SocialVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="PlayerVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SocialVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+metadata/_edit_lock_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/SocialVBox/PlayerVBox"]
+layout_mode = 2
+theme = ExtResource("11_iqc8x")
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/SocialVBox/PlayerVBox/PanelContainer"]
+layout_mode = 2
+text = "Игроки"
+horizontal_alignment = 1
+
+[node name="PlayerListPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer/SocialVBox/PlayerVBox"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="LeaderboardVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SocialVBox/PlayerVBox/PlayerListPanel"]
+layout_mode = 2
+
+[node name="InGameLeaderboard" parent="MarginContainer/HBoxContainer/SocialVBox/PlayerVBox/PlayerListPanel/LeaderboardVBox" node_paths=PackedStringArray("MainScript") instance=ExtResource("12_dw0u5")]
+MainScript = NodePath("../../../../../../..")
+ListChangedSignal = "ChangePlayersList"
+List = "Users"
+SelfIndex = "UserIndex"
+
+[node name="ChatVBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SocialVBox"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+metadata/_edit_lock_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/SocialVBox/ChatVBox"]
+layout_mode = 2
+theme = ExtResource("11_iqc8x")
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/SocialVBox/ChatVBox/PanelContainer"]
+layout_mode = 2
+text = "Чат"
+horizontal_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/HBoxContainer/SocialVBox/ChatVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/SocialVBox/ChatVBox"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/SocialVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_lock_ = true
+
+[node name="PassTurnButton" type="Button" parent="MarginContainer/HBoxContainer/SocialVBox"]
+layout_mode = 2
+theme = ExtResource("6_usv54")
+text = "Пропустить ход"
+
+[node name="VisibleWhen" parent="MarginContainer/HBoxContainer/SocialVBox/PassTurnButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("8_p8fil")]
+MainScript = NodePath("../../../../..")
+Notify = "TurnChanged"
+
+[node name="ButtonActiveWhen" parent="MarginContainer/HBoxContainer/SocialVBox/PassTurnButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("9_ykyoe")]
+MainScript = NodePath("../../../../..")
+Notify = "CanPassTurn"
+
+[node name="ButtonCaller" parent="MarginContainer/HBoxContainer/SocialVBox/PassTurnButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("12_7d4qr")]
+MainScript = NodePath("../../../../..")
+Function = "PassTurn"
+
+[node name="Control2" type="Control" parent="MarginContainer/HBoxContainer/SocialVBox"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="EndTurnButton" type="Button" parent="MarginContainer/HBoxContainer/SocialVBox"]
+layout_mode = 2
+theme = ExtResource("6_usv54")
+text = "Закончить ход"
+
+[node name="VisibleWhen" parent="MarginContainer/HBoxContainer/SocialVBox/EndTurnButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("8_p8fil")]
+MainScript = NodePath("../../../../..")
+Notify = "TurnChanged"
+
+[node name="ButtonActiveWhen" parent="MarginContainer/HBoxContainer/SocialVBox/EndTurnButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("9_ykyoe")]
+MainScript = NodePath("../../../../..")
+Notify = "CanEndTurn"
+
+[node name="ButtonCaller" parent="MarginContainer/HBoxContainer/SocialVBox/EndTurnButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("12_7d4qr")]
+MainScript = NodePath("../../../../..")
+Function = "EndTurn"
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.522
+anchor_top = 1.0
+anchor_right = 0.522
+anchor_bottom = 1.0
+offset_left = -301.344
+offset_top = -222.0
+offset_right = 300.656
+offset_bottom = -130.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VSplitContainer" type="VSplitContainer" parent="PanelContainer2/MarginContainer"]
+layout_mode = 2
+dragger_visibility = 1
+
+[node name="Label" type="Label" parent="PanelContainer2/MarginContainer/VSplitContainer"]
+layout_mode = 2
+text = "Выберите фишки для замены."
+horizontal_alignment = 1
+
+[node name="HSplitContainer" type="HSplitContainer" parent="PanelContainer2/MarginContainer/VSplitContainer"]
+layout_mode = 2
+dragger_visibility = 1
+
+[node name="Button" type="Button" parent="PanelContainer2/MarginContainer/VSplitContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Отмена"
+
+[node name="ButtonSwitchProp" parent="PanelContainer2/MarginContainer/VSplitContainer/HSplitContainer/Button" node_paths=PackedStringArray("MainScript") instance=ExtResource("10_vih4x")]
+MainScript = NodePath("../../../../../..")
+Prop = "MultiSelect"
+
+[node name="Button2" type="Button" parent="PanelContainer2/MarginContainer/VSplitContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Готово"
+
+[node name="ButtonCaller" parent="PanelContainer2/MarginContainer/VSplitContainer/HSplitContainer/Button2" node_paths=PackedStringArray("MainScript") instance=ExtResource("12_7d4qr")]
+MainScript = NodePath("../../../../../..")
+Function = "Swap"
+
+[node name="VisibleWhen" parent="PanelContainer2" node_paths=PackedStringArray("MainScript") instance=ExtResource("8_p8fil")]
+MainScript = NodePath("../..")
+Notify = "Swapping"
+
+[node name="ExitDialog" type="PanelContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(800, 400)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="ExitDialog"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ExitDialog/CenterContainer"]
+custom_minimum_size = Vector2(800, 400)
+layout_mode = 2
+theme = ExtResource("16_w6sif")
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ExitDialog/CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ExitDialog/CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="ExitDialog/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("16_j3t3o")
+theme_override_font_sizes/font_size = 60
+text = "Вы точно хотите выйти?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ExitDialog/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="CancelButton" type="Button" parent="ExitDialog/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = ExtResource("15_rr0ej")
+text = "Нет"
+
+[node name="ButtonCaller" parent="ExitDialog/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CancelButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("12_7d4qr")]
+MainScript = NodePath("../../../../../../../..")
+Function = "CancelExit"
+
+[node name="YesButton" type="Button" parent="ExitDialog/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = ExtResource("15_rr0ej")
+text = "Да"
+
+[node name="ButtonCaller" parent="ExitDialog/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/YesButton" node_paths=PackedStringArray("MainScript") instance=ExtResource("12_7d4qr")]
+MainScript = NodePath("../../../../../../../..")
+Function = "ReallyExit"
+
+[node name="VisibleWhen" parent="ExitDialog" node_paths=PackedStringArray("MainScript") instance=ExtResource("8_p8fil")]
+MainScript = NodePath("../..")
+Notify = "ExitDialog"

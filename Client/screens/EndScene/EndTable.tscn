@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://dx85dprxh4lof"]
+
+[ext_resource type="Script" path="res://screens/EndScene/EndTable.gd" id="1_vegc7"]
+[ext_resource type="Theme" uid="uid://bl53e4gf0esw2" path="res://assets/ui/themes/label_or_theme.tres" id="2_txyqm"]
+[ext_resource type="PackedScene" uid="uid://b4145c11xltpe" path="res://ui/components/InGameLeaderboard/InGameLeaderboard.tscn" id="3_g4cpb"]
+[ext_resource type="Theme" uid="uid://bumkwxeykmpbo" path="res://assets/ui/themes/button_base_theme.tres" id="4_fj0x4"]
+[ext_resource type="PackedScene" uid="uid://bgo31fruiw86s" path="res://ui/components/ButtonCaller/ButtonCaller.tscn" id="5_c3ek1"]
+
+[node name="EndTable" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vegc7")
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_txyqm")
+text = "Игра окончена"
+horizontal_alignment = 1
+
+[node name="Leaderboard" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InGameLeaderboard" parent="MarginContainer/VBoxContainer/Leaderboard" node_paths=PackedStringArray("MainScript") instance=ExtResource("3_g4cpb")]
+MainScript = NodePath("../../../..")
+ListChangedSignal = "RefreshLeaderboard"
+List = "Users"
+SelfIndex = "UserIndex"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_fj0x4")
+text = "В МЕНЮ!"
+
+[node name="ButtonCaller" parent="MarginContainer/VBoxContainer/Button" node_paths=PackedStringArray("MainScript") instance=ExtResource("5_c3ek1")]
+MainScript = NodePath("../../../..")
+Function = "OpenMainMenu"
