@@ -257,7 +257,7 @@ class Board {
         let accepted = await WordAPI.fetchData(word);
 
         if(!(accepted && !this.CheckIfWordExisted(word))){
-            return null;
+            return -1;
         }
 
         let points = 0;
@@ -318,8 +318,15 @@ class Board {
         let points = await this.CalculateWord(wordStr, cells);
 
         if(points != null){
+            if(points == -1){
+                this.wordsToCommit = [];
+                return false;
+            }
+
             this.wordsToCommit.push(new Word(wordStr, cells, points));
         }
+
+        return true;
     }
 
     /**
@@ -344,18 +351,25 @@ class Board {
         let points = await this.CalculateWord(wordStr, cells);
 
         if(points != null){
+            if(points == -1){
+                this.wordsToCommit = [];
+                return false;
+            }
+
             this.wordsToCommit.push(new Word(wordStr, cells, points));
         }
+
+        return true;
     }
 
     /**
      * Horizontal main alingment recognizing
      */
     async HorizontalWordBuilding(){
-        await this.HorizontalAlingmentWordBuilding(this.currentCells[0]);
+        let wordClear = await this.HorizontalAlingmentWordBuilding(this.currentCells[0]);
 
-        for(let i = 0; i < this.currentCells.length; i++){
-            await this.VerticalAlingmentBuilding(this.currentCells[i]);
+        for(let i = 0; i < this.currentCells.length && wordClear; i++){
+            wordClear = await this.VerticalAlingmentBuilding(this.currentCells[i]);
         }
     }
 
@@ -363,10 +377,10 @@ class Board {
      * Vertical main alingment recognizing
      */
     async VerticalWordBuilding(){
-        await this.VerticalAlingmentBuilding(this.currentCells[0]);
+        let wordClear = await this.VerticalAlingmentBuilding(this.currentCells[0]);
 
-        for(let i = 0; i < this.currentCells.length; i++){
-            await this.HorizontalAlingmentWordBuilding(this.currentCells[i]);
+        for(let i = 0; i < this.currentCells.length && wordClear; i++){
+            wordClear = await this.HorizontalAlingmentWordBuilding(this.currentCells[i]);
         }
     }
 

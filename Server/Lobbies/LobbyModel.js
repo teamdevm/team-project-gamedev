@@ -123,6 +123,10 @@ class Lobby {
 
             this.users[i].SendMessage(msg);
         }
+
+        if(this.currentPlayers == 0){
+            this._srv.DestroyLobby(this.uuid);
+        }
     }
 
     /**
@@ -130,7 +134,7 @@ class Lobby {
      */
     StartGame(){
         this.started = true;
-        this.gameService = new GameService(this.users, this._srv);
+        this.gameService = new GameService(this.users, this._srv, this.uuid);
     }
 
     CreateLobbyObject(){

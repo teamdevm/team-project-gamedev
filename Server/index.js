@@ -1,6 +1,8 @@
 
 require('dotenv').config();
 const http = require('http');
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -11,6 +13,17 @@ global.serverAppRoot = path.resolve(__dirname);
 var socketServer;
 
 let httpServer;
+let httpsServer;
+let socketHttpsServer;
+
+var privateKey = fs.readFileSync('key.pem', 'utf8');
+var certificate = fs.readFileSync('cert.pem', 'utf8');
+
+var credentials = {
+    key: privateKey,
+    cert: certificate
+};
+
 let app = express();
 const httpRouter = require('./Routes/router');
 
@@ -31,9 +44,12 @@ var start = async () => {
     let httpPort = process.env.HTTP_PORT;
     let socketPort = process.env.SOCKET_PORT;
 
-    httpServer = http.createServer(app);
-    httpServer.listen(httpPort);
-    socketServer = new SocketServer(socketPort);
+    httpsServer = https.createServer(credentials, app);
+    httpsServer.listen(httpPort);
+
+    socketHttpsServer = https.createServer(credentials);
+    socketHttpsServer.listen(socketPort);
+    socketServer = new SocketServer(socketHttpsServer);
     
     console.log(`HTTP server started on port ${httpPort}`);
     console.log(`Socket server started on port ${socketPort}`);
